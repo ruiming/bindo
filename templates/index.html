@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block body %}
+<ul class="posts">
+    {% for post in posts %}
+    <a class="post" href="{{post.link}}">
+        <p>{{ post.title }}</p>
+        <small>{{ post.date|date('Y-m-d H:i:s') }}</small>
+    </a>
+    {% endfor %}
+</ul>
+<nav class="page">
+    {% if currentPage == 2 %}
+        <a class="pre" href="/">Pre</a>
+    {% elif currentPage > 2 %}
+        <a class="pre" href="/page/{{currentPage - 1}}">Pre</a>
+    {% endif %}
+    {% if currentPage != page %}
+        <a class="next" href="/page/{{currentPage + 1}}">Next</a>
+    {% endif %}
+</nav>
+{% endblock %}

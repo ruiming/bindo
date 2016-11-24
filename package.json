@@ -1,0 +1,26 @@
+{
+  "name": "rocket",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "url": "git@github.com:ruiming/rocket.git",
+    "type": "git"
+  },
+  "author": "ruiming <ruiming.zhuang@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "co": "^4.6.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-postcss": "^6.2.0",
+    "gulp-sourcemaps": "^1.9.1",
+    "highlight": "^0.2.4",
+    "js-yaml": "^3.7.0",
+    "marked": "^0.3.6",
+    "postcss": "^5.2.6",
+    "postcss-cssnext": "^2.8.0",
+    "postcss-nested": "^1.0.0",
+    "swig": "^1.4.2"
+  }
+}

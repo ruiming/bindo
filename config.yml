@@ -1,0 +1,9 @@
+# Site
+title: 瑞铭的博客
+description: 测试
+github: https://github.com/ruiming
+google: https://plus.google.com/115149019958723046324
+
+# Pagination
+pagination:
+  index_page: 5
