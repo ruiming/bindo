@@ -15,12 +15,13 @@
             tags = $("#tags").val(),
             content = simplemde.value()
             id = "{{ post.id }}",
-            date = "{{ post.date|date('Y-m-d H:i:s') }}" || Date.now()
+            date = "{{ post.date|date('Y-m-d H:i:s') }}"
         $.post('/rocket/new', {
             title,
             tags,
             content,
             id,
+            date
         }, function(result) {
             console.log(result)
         })

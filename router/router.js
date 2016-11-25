@@ -38,8 +38,11 @@ router.get('/new', co.wrap(function *(ctx, next) {
 // TODO 自定义时间
 // 每篇文章都有一个固定的 ID, 这个 ID 用于唯一区分不同文章
 // 生成与 hexo 的 markdown 格式一致的文章, 即带 yaml 格式的 metadata
+// Notice 无法创建同名文章
 router.post('/new', co.wrap(function *(ctx, next) {
     let { title, tags, content, id, date } = ctx.request.body
+    // 根据 ID 判断是编辑文章还是新增文章
+    // 编辑文章的话考虑到标题修改要进行删除原文操作
     if (id) {
         // 存在 ID 则先删除原来的 markdown 文档
         // 如果无法正常生成新的 markdown 文档, 那么可以从 data 文件夹中找到已经解析好的原文
@@ -57,6 +60,10 @@ router.post('/new', co.wrap(function *(ctx, next) {
         }
     } else {
         id = SHA256(Date.now()).toString().substr(0, 10)
+    }
+    // TODO 日期问题
+    if (date.indexOf('NaN') !== -1) {
+        date = new Date()
     }
     let post = `---\ntitle: ${title}\ndate: ${date}\nid: ${id}\ntags:\n`
     tags.split(',').forEach(tag => post += `- ${tag}\n`)
