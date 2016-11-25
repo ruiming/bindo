@@ -1,0 +1,14 @@
+<ul class="posts">
+    {% for post in posts %}
+    <li class="post">
+        <a class="post-msg" href="{{post.link}}">
+            <p>{{ post.title }}</p>
+            <small>{{ post.date|date('Y-m-d H:i:s') }}</small>
+        </a>
+        <div class="post-option">
+            <a href="#" class="btn">编辑</a>
+            <a href="#" class="btn">删除</a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>

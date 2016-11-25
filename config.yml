@@ -7,3 +7,9 @@ google: https://plus.google.com/115149019958723046324
 # Pagination
 pagination:
   index_page: 5
+
+# User
+
+
+# session
+secret: 120rhub579175afigbj03t0135b09u60
