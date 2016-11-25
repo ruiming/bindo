@@ -6,9 +6,11 @@ const co = require('co')
 const serve = require('koa-static')
 const swig = require('koa-swig')
 const router = require('./router/router')
+const bodyparser = require('koa-bodyparser')
 
 const app = new Koa()
 
+app.use(bodyparser())
 app.context.render = co.wrap(swig({
     root: path.join(__dirname, 'views'),
     autoescape: true,

@@ -8,6 +8,9 @@ const hl = require('highlight').Highlight
 const config = require('./config')
 const _ = require('underscore')
 
+/**
+ * 生成静态博客
+ */
 const make = co.wrap(function *() {
     const cfg = config
     const filenames = fs.readdirSync('./posts')
