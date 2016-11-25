@@ -19,5 +19,8 @@ router.get('/', co.wrap(function *(ctx, next) {
         config: config
     }))
 }))
+router.get('/edit', co.wrap(function *(ctx, next) {
+    yield ctx.render('edit', {config: config})
+}))
 
 module.exports = router

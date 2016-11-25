@@ -12,7 +12,6 @@ const app = new Koa()
 app.context.render = co.wrap(swig({
     root: path.join(__dirname, 'views'),
     autoescape: true,
-    cache: 'memory',
     ext: 'html'
 }));
 

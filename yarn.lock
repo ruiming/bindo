@@ -709,6 +709,16 @@ co, co@^4.6.0:
   version "4.6.0"
   resolved "http://registry.npm.taobao.org/co/download/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
 
+codemirror-spell-checker@*:
+  version "1.1.2"
+  resolved "http://registry.npm.taobao.org/codemirror-spell-checker/download/codemirror-spell-checker-1.1.2.tgz#1c660f9089483ccb5113b9ba9ca19c3f4993371e"
+  dependencies:
+    typo-js "*"
+
+codemirror@*:
+  version "5.21.0"
+  resolved "http://registry.npm.taobao.org/codemirror/download/codemirror-5.21.0.tgz#9ec4caeda50807575b2115226bf12414f85d2246"
+
 color-convert@^0.5.3, color-convert@0.5.x:
   version "0.5.3"
   resolved "http://registry.npm.taobao.org/color-convert/download/color-convert-0.5.3.tgz#bdb6c69ce660fadffe0b0007cc447e1b9f7282bd"
@@ -1857,7 +1867,7 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/map-obj/download/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
-marked:
+marked, marked@*:
   version "0.3.6"
   resolved "http://registry.npm.taobao.org/marked/download/marked-0.3.6.tgz#b2c6c618fccece4ef86c4fc6cb8a7cbf5aeda8d7"
 
@@ -2616,6 +2626,14 @@ signal-exit@^3.0.0:
   version "3.0.1"
   resolved "http://registry.npm.taobao.org/signal-exit/download/signal-exit-3.0.1.tgz#5a4c884992b63a7acd9badb7894c3ee9cfccad81"
 
+simplemde:
+  version "1.11.2"
+  resolved "http://registry.npm.taobao.org/simplemde/download/simplemde-1.11.2.tgz#a23a35d978d2c40ef07dec008c92f070d8e080e3"
+  dependencies:
+    codemirror "*"
+    codemirror-spell-checker "*"
+    marked "*"
+
 slash@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/slash/download/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
@@ -2787,6 +2805,10 @@ type-is@^1.5.5:
   dependencies:
     media-typer "0.3.0"
     mime-types "~2.1.13"
+
+typo-js@*:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/typo-js/download/typo-js-1.0.1.tgz#1b15749fdea49ca6227665aed89545ec2eb1ea25"
 
 uglify-js@~2.4:
   version "2.4.24"

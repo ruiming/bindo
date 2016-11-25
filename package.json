@@ -39,6 +39,7 @@
     "postcss": "^5.2.6",
     "postcss-cssnext": "^2.8.0",
     "postcss-nested": "^1.0.0",
+    "simplemde": "^1.11.2",
     "swig": "^1.4.2",
     "underscore": "^1.8.3"
   }

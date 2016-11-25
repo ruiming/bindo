@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block body %}
+
+    {% include 'header.html' %}
+    <textarea id="md"></textarea>
+    <script>
+    var simplemde = new SimpleMDE({ 
+        element: document.getElementById("md"),
+        spellChecker: false
+    });
+    </script>
+
+{% endblock %}
