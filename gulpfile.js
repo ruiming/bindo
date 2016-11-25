@@ -9,8 +9,6 @@ gulp.task('css', () => {
         .pipe(gulp.dest('./public/css'))
 })
 
-gulp.task('watch', () => {
-    gulp.watch(['./static/*.css'], ['css'])
-})
+gulp.watch(['./static/*.css'], ['css'])
 
-gulp.task('default', ['watch'])
+gulp.task('default', ['css'])

@@ -3,7 +3,7 @@
 <article class="md">
     <header class="meta">
         <h2 class="title">{{ title }}</h2>
-        <span class="date">Updated at {{ date|date('Y-m-d H:i:s') }}</span>
+        <span class="date">发布于 {{ date|date('Y-m-d H:i:s') }}</span>
         {% for tag in tags %}
         <span class="tag">
             <a href="javascript:void 0">{{ tag }}</a>

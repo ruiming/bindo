@@ -11,7 +11,7 @@
 <nav class="page">
     {% if currentPage == 2 %}
         <a class="pre" href="/">Pre</a>
-    {% elif currentPage > 2 %}
+    {% else if currentPage > 2 %}
         <a class="pre" href="/page/{{currentPage - 1}}">Pre</a>
     {% endif %}
     {% if currentPage != page %}

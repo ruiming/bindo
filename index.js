@@ -17,8 +17,8 @@ co(function *() {
         post = yield fs.readFileAsync(`./posts/${filename}`, 'utf-8')
         post = Object.assign({}, _parse(post), {
             config: cfg,
-            name: filename.replace(/\s/, '-'),
-            link: `/post/${filename.replace(/\s/, '-').split('.').shift()}.html`
+            name: filename.replace(/\s+/, '-'),
+            link: `/post/${filename.replace(/\s+/, '-').split('.').shift()}.html`
         })
         posts.push(post)
         yield fs.writeFileAsync(
