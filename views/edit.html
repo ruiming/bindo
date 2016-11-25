@@ -14,10 +14,13 @@
         var title = $("#title").val(),
             tags = $("#tags").val(),
             content = simplemde.value()
+            id = "{{ post.id }}",
+            date = "{{ post.date|date('Y-m-d H:i:s') }}" || Date.now()
         $.post('/rocket/new', {
             title,
             tags,
             content,
+            id,
         }, function(result) {
             console.log(result)
         })
@@ -29,7 +32,7 @@
         autosave: {
             enabled: true,
             delay: 10000,
-            uniqueId: "{{ post.title|safe }}",
+            uniqueId: "{{ post.id|safe }}" || 'new',
         },
         renderingConfig: {
             codeSyntaxHighlighting: true
@@ -45,8 +48,7 @@
         options: {{ tags|json_encode|safe }},
         create: function(input) {
             return {
-                value: input,
-                text: input
+                tag: input
             }
         }
     })

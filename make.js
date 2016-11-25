@@ -13,8 +13,9 @@ const _ = require('underscore')
  */
 const make = co.wrap(function *() {
     const cfg = config
-    const filenames = fs.readdirSync('./posts')
-    
+    let filenames = fs.readdirSync('./posts')
+    filenames = filenames.filter(filename => filename.split('.').pop() === 'md')
+
     let posts = [], temp = [], page = 0, meta, per_page = cfg.pagination.index_page
 
     // 渲染 post
@@ -38,9 +39,15 @@ const make = co.wrap(function *() {
     // 存储
     posts = posts.sort((pre, curr) => curr.date - pre.date)
     tags = _.uniq(_.flatten(posts.map(post => post.tags)))
+    // 存储每篇解析后的文章数据(按其 ID 存储)
+    posts.forEach(post => fs.writeFileAsync(`${__dirname}/data/${post.id}.rt`, JSON.stringify({
+        post: post
+    })))
+    // 存储全部解析后的文章数据
     fs.writeFileAsync(`${__dirname}/data/posts.rt`, JSON.stringify({
         posts: posts
     }))
+    // 存储所有标签
     fs.writeFileAsync(`${__dirname}/data/tags.rt`, JSON.stringify({
         tags: tags
     }))
@@ -88,6 +95,7 @@ const make = co.wrap(function *() {
     function _parse(post) {
         let block = post.match(/^---([\s\S]*?)---\s*/)
         let content = post.slice(block.index + block[0].length)
+        console.log(block[1])
         meta = yaml.safeLoad(block[1])
         return Object.assign({}, meta, {
             content: hl(marked(content), false, true)
