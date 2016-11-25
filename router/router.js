@@ -19,8 +19,15 @@ router.get('/', co.wrap(function *(ctx, next) {
         config: config
     }))
 }))
-router.get('/edit', co.wrap(function *(ctx, next) {
-    yield ctx.render('edit', {config: config})
+router.get('/new', co.wrap(function *(ctx, next) {
+    let tags = yield fs.readFileAsync(path.resolve(__dirname, '../data/tags.rt'))
+    tags = JSON.parse(tags)
+    tags = tags.tags.map(tag => Object.assign({ tag: tag }))
+    console.log(tags)
+    yield ctx.render('edit', Object.assign({}, {
+        tags: tags,
+        config: config
+    }))
 }))
 
 module.exports = router

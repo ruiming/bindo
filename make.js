@@ -6,6 +6,7 @@ const yaml = require('js-yaml')
 const swig = require('swig')
 const hl = require('highlight').Highlight
 const config = require('./config')
+const _ = require('underscore')
 
 const make = co.wrap(function *() {
     const cfg = config
@@ -33,8 +34,12 @@ const make = co.wrap(function *() {
 
     // 存储
     posts = posts.sort((pre, curr) => curr.date - pre.date)
+    tags = _.uniq(_.flatten(posts.map(post => post.tags)))
     fs.writeFileAsync(`${__dirname}/data/posts.rt`, JSON.stringify({
         posts: posts
+    }))
+    fs.writeFileAsync(`${__dirname}/data/tags.rt`, JSON.stringify({
+        tags: tags
     }))
 
     // 分页

@@ -1,13 +1,44 @@
 {% extends "base.html" %}
 {% block body %}
-
     {% include 'header.html' %}
-    <textarea id="md"></textarea>
+    <form class="article">
+        <input type="text" name="title" id="title" placeholder="标题">
+        <input id="select-state" placeholder="标签"></input>
+        <textarea name="content" id="content"></textarea>
+    </form>
     <script>
     var simplemde = new SimpleMDE({ 
-        element: document.getElementById("md"),
+        autoDownloadFontAwesome: false,
+        element: document.getElementById("content"),
+        autosave: {
+            enabled: true,
+            delay: 10000,
+            uniqueId: 'draft'
+        },
+        renderingConfig: {
+            codeSyntaxHighlighting: true
+        },
+
         spellChecker: false
     });
+    $('#select-state').selectize({
+        plugins: ['restore_on_backspace', 'remove_button'],  
+        persist: false,
+        labelField: 'tag',
+        valueField: 'tag',        
+        searchField: ['tag'],
+        options: {{ tags|json_encode|safe }},
+        create: function(input) {
+            return {
+                value: input,
+                text: input
+            }
+        }
+    });
     </script>
-
+    <style>
+        .CodeMirror, .CodeMirror-scroll {
+            min-height: {{ config.editor.minHeight }}px;
+        }
+    </style>
 {% endblock %}

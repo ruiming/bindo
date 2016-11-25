@@ -8,6 +8,11 @@ google: https://plus.google.com/115149019958723046324
 pagination:
   index_page: 5
 
+# markdown
+editor:
+  minHeight: 600
+  height:
+
 # User
 
 
