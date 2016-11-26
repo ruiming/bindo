@@ -8,21 +8,38 @@ const swig = require('koa-swig')
 const router = require('./router/router')
 const bodyparser = require('koa-bodyparser')
 const rd = require('./rd')
+const jwt = require('koa-jwt')
+const cookies = require('./middlewares/cookies')
+const onerror = require('./middlewares/onerror')
+const auth = require('./middlewares/auth')
 
-const app = new Koa()
-rd.init()
-make()
+co(function *() {
+    const app = new Koa()
 
-app.use(bodyparser())
-app.context.render = co.wrap(swig({
-    root: path.join(__dirname, 'views'),
-    autoescape: true,
-    ext: 'html'
-}));
+    yield rd.init()
+    yield make()
 
-app.use(router.routes())
-   .use(router.allowedMethods())
+    app.use(serve(path.resolve(__dirname, './public')))
 
-app.use(serve(path.resolve(__dirname, './public')))
+    app.use(bodyparser())
 
-app.listen(8080)
+    app.use(auth())
+
+    app.use(jwt({
+        secret:     rd.get('config').secret,
+        algorithm:  'RS256'
+    }))
+
+    app.context.render = co.wrap(swig({
+        root: path.join(__dirname, 'views'),
+        autoescape: true,
+        ext: 'html'
+    }))
+
+    app.use(router.routes())
+    .use(router.allowedMethods())
+
+    app.use(onerror())
+
+    app.listen(8080)
+})

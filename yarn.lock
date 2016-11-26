@@ -605,7 +605,7 @@ beeper@^1.0.0:
   version "1.1.1"
   resolved "http://registry.npm.taobao.org/beeper/download/beeper-1.1.1.tgz#e6d5ea8c5dad001304a70b22638447f69cb2f809"
 
-bluebird, bluebird@^3.1.1:
+bluebird, bluebird@^3.1.1, bluebird@^3.4.6:
   version "3.4.6"
   resolved "http://registry.npm.taobao.org/bluebird/download/bluebird-3.4.6.tgz#01da8d821d87813d158967e743d5fe6c62cf8c0f"
 
@@ -1569,7 +1569,7 @@ jsonfile@^2.1.0:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-jsonwebtoken:
+jsonwebtoken, jsonwebtoken@^7.1.9:
   version "7.1.9"
   resolved "http://registry.npm.taobao.org/jsonwebtoken/download/jsonwebtoken-7.1.9.tgz#847804e5258bec5a9499a8dc4a5e7a3bae08d58a"
   dependencies:
@@ -1635,6 +1635,14 @@ koa-is-json@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/koa-is-json/download/koa-is-json-1.0.0.tgz#273c07edcdcb8df6a2c1ab7d59ee76491451ec14"
 
+koa-jwt@2.1.0:
+  version "2.1.0"
+  resolved "http://registry.npm.taobao.org/koa-jwt/download/koa-jwt-2.1.0.tgz#1a846fd395b48b54ac249d5936f01eb1818f258d"
+  dependencies:
+    bluebird "^3.4.6"
+    jsonwebtoken "^7.1.9"
+    koa-unless "^1.0.0"
+
 koa-router@next:
   version "7.0.1"
   resolved "http://registry.npm.taobao.org/koa-router/download/koa-router-7.0.1.tgz#800a61d0a3342d3d1f96d8c688b84ed2a6314d97"
@@ -1678,6 +1686,10 @@ koa-swig@2.2.0:
     swig "^1.4.2"
     thenify "^3.1.0"
     utils-merge "^1.0.0"
+
+koa-unless@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/koa-unless/download/koa-unless-1.0.0.tgz#5aa57384bc882568afc90ac04852a3d58658aeeb"
 
 koa-views@next:
   version "5.2.0"

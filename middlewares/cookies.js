@@ -1,10 +1,9 @@
-import config '../config/config'
-import { SHA256 } from 'crypto-js'
-import jwt from 'jsonwebtoken'
-import _ from 'underscore'
+var { SHA256 } = require('crypto-js')
+var jwt = require('jsonwebtoken')
+var _ = require('underscore')
 
 module.exports = function () {
-    return async(ctx, next) => {
+    return co.wrap(function *(ctx, next) {
         // 清除 cookies
         ctx.clearcookies = () => {
             ctx.cookies.set('xsrf-token', null, {
@@ -41,6 +40,6 @@ module.exports = function () {
                 exp: date / 1000
             }
         }
-        await next()
-    }
+        yield next()
+    })
 }
