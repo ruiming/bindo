@@ -6,6 +6,7 @@ module.exports = function () {
         try {
             yield next()
         } catch (err) {
+            console.log(err)
             if (err == null) {
                 ctx.status = 500
                 yield ctx.render('error', {

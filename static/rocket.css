@@ -164,3 +164,26 @@ body {
         }
     }
 }
+/* login */
+.login {
+    padding: 100px 10px;
+    text-align: center;
+    input {
+        width: 350px;
+        border: none;
+        border-bottom: 1px solid #eee;
+        padding: 10px;
+        box-sizing: border-box;
+        outline: none;
+        resize: none;
+        display: block;
+        margin: 20px auto;
+        &:focus {
+            border-bottom: 1px solid #03a9f4;
+        }
+    }
+    .submit {
+        background: #03A9F4;
+        color: #fff;
+    }
+}

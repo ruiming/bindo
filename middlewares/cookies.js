@@ -1,10 +1,13 @@
 var { SHA256 } = require('crypto-js')
 var jwt = require('jsonwebtoken')
 var _ = require('underscore')
+var co = require('co')
+var rd = require('../rd')
 
 module.exports = function () {
     return co.wrap(function *(ctx, next) {
         // 清除 cookies
+        let config = rd.get('config')
         ctx.clearcookies = () => {
             ctx.cookies.set('xsrf-token', null, {
                 overwrite: true,
@@ -23,7 +26,7 @@ module.exports = function () {
                     id:  _id,
                     xsrf,
                     exp: date / 1000,
-                }, config.APP.JWT_KEY)
+                }, config.secret)
             ctx.cookies.set('xsrf-token', xsrf, {
                 httpOnly:  false,
                 overwrite: true,

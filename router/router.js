@@ -61,6 +61,7 @@ router.post('/new', co.wrap(function *(ctx, next) {
     }
 }))
 
+
 // 删除文章
 router.delete('/post/:id', co.wrap(function *(ctx, next) {
     yield rd.deleteMd(ctx.params.id)

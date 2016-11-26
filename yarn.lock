@@ -605,7 +605,7 @@ beeper@^1.0.0:
   version "1.1.1"
   resolved "http://registry.npm.taobao.org/beeper/download/beeper-1.1.1.tgz#e6d5ea8c5dad001304a70b22638447f69cb2f809"
 
-bluebird, bluebird@^3.1.1, bluebird@^3.4.6:
+bluebird, bluebird@^3.1.1:
   version "3.4.6"
   resolved "http://registry.npm.taobao.org/bluebird/download/bluebird-3.4.6.tgz#01da8d821d87813d158967e743d5fe6c62cf8c0f"
 
@@ -1569,13 +1569,21 @@ jsonfile@^2.1.0:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-jsonwebtoken, jsonwebtoken@^7.1.9:
+jsonwebtoken:
   version "7.1.9"
   resolved "http://registry.npm.taobao.org/jsonwebtoken/download/jsonwebtoken-7.1.9.tgz#847804e5258bec5a9499a8dc4a5e7a3bae08d58a"
   dependencies:
     joi "^6.10.1"
     jws "^3.1.3"
     lodash.once "^4.0.0"
+    ms "^0.7.1"
+    xtend "^4.0.1"
+
+jsonwebtoken@5.x.x:
+  version "5.7.0"
+  resolved "http://registry.npm.taobao.org/jsonwebtoken/download/jsonwebtoken-5.7.0.tgz#1c90f9a86ce5b748f5f979c12b70402b4afcddb4"
+  dependencies:
+    jws "^3.0.0"
     ms "^0.7.1"
     xtend "^4.0.1"
 
@@ -1588,7 +1596,7 @@ jwa@^1.1.4:
     ecdsa-sig-formatter "1.0.7"
     safe-buffer "^5.0.1"
 
-jws@^3.1.3:
+jws@^3.0.0, jws@^3.1.3:
   version "3.1.4"
   resolved "http://registry.npm.taobao.org/jws/download/jws-3.1.4.tgz#f9e8b9338e8a847277d6444b1464f61880e050a2"
   dependencies:
@@ -1635,13 +1643,13 @@ koa-is-json@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/koa-is-json/download/koa-is-json-1.0.0.tgz#273c07edcdcb8df6a2c1ab7d59ee76491451ec14"
 
-koa-jwt@2.1.0:
-  version "2.1.0"
-  resolved "http://registry.npm.taobao.org/koa-jwt/download/koa-jwt-2.1.0.tgz#1a846fd395b48b54ac249d5936f01eb1818f258d"
+koa-jwt@1.2.0:
+  version "1.2.0"
+  resolved "http://registry.npm.taobao.org/koa-jwt/download/koa-jwt-1.2.0.tgz#c0589c2c27d7e0b497a22cb28575d0bc7dc0f959"
   dependencies:
-    bluebird "^3.4.6"
-    jsonwebtoken "^7.1.9"
-    koa-unless "^1.0.0"
+    jsonwebtoken "5.x.x"
+    koa-unless "0.0.1"
+    thunkify "~2.1.x"
 
 koa-router@next:
   version "7.0.1"
@@ -1687,9 +1695,9 @@ koa-swig@2.2.0:
     thenify "^3.1.0"
     utils-merge "^1.0.0"
 
-koa-unless@^1.0.0:
-  version "1.0.0"
-  resolved "http://registry.npm.taobao.org/koa-unless/download/koa-unless-1.0.0.tgz#5aa57384bc882568afc90ac04852a3d58658aeeb"
+koa-unless@0.0.1:
+  version "0.0.1"
+  resolved "http://registry.npm.taobao.org/koa-unless/download/koa-unless-0.0.1.tgz#cfcdd1cdfbaf066e05d843e6a412df8a7c69b218"
 
 koa-views@next:
   version "5.2.0"
@@ -2845,6 +2853,10 @@ through2@^2.0.0, through2@^2.0.1, through2@2.X:
   dependencies:
     readable-stream "~2.0.0"
     xtend "~4.0.0"
+
+thunkify@~2.1.x:
+  version "2.1.2"
+  resolved "http://registry.npm.taobao.org/thunkify/download/thunkify-2.1.2.tgz#faa0e9d230c51acc95ca13a361ac05ca7e04553d"
 
 tildify@^1.0.0:
   version "1.2.0"

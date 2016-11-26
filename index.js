@@ -6,6 +6,7 @@ const co = require('co')
 const serve = require('koa-static')
 const swig = require('koa-swig')
 const router = require('./router/router')
+const authRouter = require('./router/auth')
 const bodyparser = require('koa-bodyparser')
 const rd = require('./rd')
 const jwt = require('koa-jwt')
@@ -23,7 +24,13 @@ co(function *() {
 
     app.use(bodyparser())
 
+    app.use(cookies())
+
+    app.use(onerror())
+
     app.use(auth())
+
+    app.use(authRouter.routes())
 
     app.use(jwt({
         secret:     rd.get('config').secret,
@@ -38,8 +45,6 @@ co(function *() {
 
     app.use(router.routes())
     .use(router.allowedMethods())
-
-    app.use(onerror())
 
     app.listen(8080)
 })

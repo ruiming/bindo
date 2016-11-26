@@ -4,20 +4,28 @@ const rd = require('../rd')
 
 module.exports = function () {
     return co.wrap(function *(ctx, next) {
-        let token = ctx.cookies.get('jwt'),
-            xsrf = ctx.request.headers['x-xsrf-token']
+        let token = ctx.cookies.get('jwt')
+        let config = rd.get('config')
         ctx.request.header.authorization = 'Bearer ' + token
-        if (token == null) {
-            let verify = Promise.promisify(jwt.verify)
-            let data = yield verify(token, rd.get('config').secret)
-            if (data.xsrf || data.xsrf !== xsrf) {
+        if (token != null) {
+            let verify = Promise.promisify(jwt.verify), data
+            try {
+                data = yield verify(token, rd.get('config').secret)
+            } catch (e) {
+                ctx.clearcookies()
+                ctx.render('login')
+            }
+            if (data && data.id !== config['username']) {
                 ctx.clearcookies()
                 ctx.render('login')
             } else {
                 yield next()
             }
-        } else {
+        } else if (/^\/auth/.test(ctx.url)) {
             yield next()
+        } else {
+            ctx.clearcookies()
+            ctx.render('login')
         }
     })
 }
