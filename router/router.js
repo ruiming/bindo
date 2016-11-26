@@ -38,6 +38,13 @@ router.get('/edit/:id', co.wrap(function *(ctx, next) {
     }))
 }))
 
+router.get('/config', co.wrap(function *(ctx, next) {
+    let config = yield fs.readFileAsync(path.resolve(__dirname, '../config.yml'), 'utf-8')
+    yield ctx.render('config', {
+        config: config
+    })
+}))
+
 // 发布/修改文章
 router.post('/new', co.wrap(function *(ctx, next) {
     let { title, tags, content, id, date } = ctx.request.body

@@ -182,8 +182,8 @@ body {
             border-bottom: 1px solid #03a9f4;
         }
     }
-    .submit {
-        background: #03A9F4;
-        color: #fff;
-    }
+}
+.submit {
+    background: #03A9F4;
+    color: #fff;
 }

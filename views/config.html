@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block body %}
+    {% include 'header.html' %}
+    <form class="article">
+        <h2>WARNING: 请谨慎修改配置文件 TODO!!!</h2>
+        <textarea name="content" id="content"></textarea>
+        <article id="article" style="display: none">{{ config|raw }}</article>
+        <input type="button" id="submit" class="submit" value="提交">
+    </form>
+    <script>
+    var simplemde = new SimpleMDE({ 
+        autoDownloadFontAwesome: false,
+        element: document.getElementById("content"),
+        initialValue: $("#article").text(),
+        renderingConfig: {
+            codeSyntaxHighlighting: true
+        },
+        spellChecker: false
+    })
+    </script>
+    <style>
+        .CodeMirror, .CodeMirror-scroll {
+            min-height: {{ config.editor.minHeight }}px;
+        }
+    </style>
+{% endblock %}
