@@ -12,8 +12,24 @@ const _ = require('underscore')
  * 生成静态博客
  */
 const make = co.wrap(function *() {
+    /* 清理 TODO 文件夹不存在时 */
+    let cpublic = yield fs.readdirAsync(`${__dirname}/public`)
+    if (cpublic) {
+        let clean = ['post', 'page']
+        for(let folder of clean) {
+            let cfilenames = yield fs.readdirAsync(`${__dirname}/public/${folder}`)
+            if (cfilenames) {
+                for (let cfilename of cfilenames) {
+                    yield fs.unlinkAsync(`${__dirname}/public/${folder}/${cfilename}`)
+                }
+            } else {
+                yield fs.mkdirAsync(`${__dirname}/public/${folder}`)
+            }
+        }
+    }
+
     const cfg = config
-    let filenames = fs.readdirSync('./posts')
+    let filenames = yield fs.readdirAsync('./posts')
     filenames = filenames.filter(filename => filename.split('.').pop() === 'md')
 
     let posts = [], temp = [], page = 0, meta, per_page = cfg.pagination.index_page

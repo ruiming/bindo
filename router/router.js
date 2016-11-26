@@ -12,10 +12,10 @@ const router = new Router({
     prefix: '/rocket'
 })
 
-// 后台主页
+// 后台主页页面
 router.get('/', co.wrap(function *(ctx, next) {
     // 初次使用
-    make()
+    yield make()
     let posts = yield fs.readFileAsync(path.resolve(__dirname, '../data/posts.rt'))
     posts = JSON.parse(posts)
     yield ctx.render('index', Object.assign({}, posts, {
@@ -23,7 +23,7 @@ router.get('/', co.wrap(function *(ctx, next) {
     }))
 }))
 
-// 创建新文章
+// 创建新文章页面
 router.get('/new', co.wrap(function *(ctx, next) {
     let tags = yield fs.readFileAsync(path.resolve(__dirname, '../data/tags.rt'))
     tags = JSON.parse(tags)
@@ -40,6 +40,7 @@ router.get('/new', co.wrap(function *(ctx, next) {
 // 生成与 hexo 的 markdown 格式一致的文章, 即带 yaml 格式的 metadata
 // Notice 无法创建同名文章
 // 标题名可以包含空格, 但生成的 html 文件不能有空格，且链接到的博客链接也不能有空格
+// data 中单篇文章数据不会清除, 以供手工恢复用
 router.post('/new', co.wrap(function *(ctx, next) {
     let { title, tags, content, id, date } = ctx.request.body
     // 根据 ID 有无判断是编辑文章还是新增文章
@@ -60,7 +61,7 @@ router.post('/new', co.wrap(function *(ctx, next) {
             yield fs.unlinkAsync(path.resolve(__dirname, `../posts/${origin.post.title}.md`))
         }
     } else {
-        id = SHA256(Date.now()).toString().substr(0, 10)
+        id = SHA256(Date.now()).toString()
         date = new Date()
     }
     // 创建新的 md 文档
@@ -79,8 +80,10 @@ router.post('/new', co.wrap(function *(ctx, next) {
 }))
 
 // 编辑文章
-router.get('/edit/:title', co.wrap(function *(ctx, next) {
-    let post = yield fs.readFileAsync(path.resolve(__dirname, `../posts/${ctx.params.title}.md`), 'utf-8')
+router.get('/edit/:id', co.wrap(function *(ctx, next) {
+    let data = yield fs.readFileAsync(path.resolve(__dirname, `../data/${ctx.params.id}.rt`), 'utf-8')
+    let origin = JSON.parse(data)
+    let post = yield fs.readFileAsync(path.resolve(__dirname, `../posts/${origin.post.title}.md`), 'utf-8')
     let block = post.match(/^---([\s\S]*?)---\s*/)
     let content = post.slice(block.index + block[0].length)
     let meta = yaml.safeLoad(block[1])
@@ -94,6 +97,19 @@ router.get('/edit/:title', co.wrap(function *(ctx, next) {
             content: content
         })
     }))
+}))
+
+// 删除文章
+router.delete('/post/:id', co.wrap(function *(ctx, next) {
+    let id = ctx.params.id
+    let data = yield fs.readFileAsync(path.resolve(__dirname, `../data/${id}.rt`), 'utf-8')
+    let origin = JSON.parse(data)
+    yield fs.unlinkAsync(path.resolve(__dirname, `../posts/${origin.post.title}.md`))
+    yield make()
+    ctx.body = {
+        success: true,
+        data:    id
+    }
 }))
 
 module.exports = router
