@@ -2,10 +2,9 @@
 {% block body %}
     {% include 'header.html' %}
     <form class="article">
-        <input type="text" name="title" id="title" placeholder="标题" value="{{post.title}}">
-        <input id="tags" name="tags" placeholder="标签" value="{{post.tags}}"></input>
+        <input type="text" name="title" id="title" placeholder="标题">
+        <input id="tags" name="tags" placeholder="标签"></input>
         <textarea name="content" id="content"></textarea>
-        <article id="article" style="display: none">{{ post.content|safe }}</article>
         <input type="button" id="submit">
     </form>
     <script>
@@ -14,16 +13,14 @@
         var title = $("#title").val(),
             tags = $("#tags").val(),
             content = simplemde.value()
-            id = "{{ post.id|safe }}",
-            date = "{{ post.date|date('Y-m-d H:i:s') }}"
         $.post('/rocket/new', {
-            title,
+            title: title,
             tags,
-            content,
-            id,
-            date
+            content
         }, function(result) {
-            localStorage.removeItem('smde_' + id)
+            // TODO 失败处理
+            // 清除保存的数据，进行跳转
+            localStorage.removeItem('smde_new')
             window.location.href = "/post/" + title.replace(/\s+/g, '-') + ".html"
         })
     })
@@ -34,7 +31,7 @@
         autosave: {
             enabled: true,
             delay: 10000,
-            uniqueId: "{{ post.id|safe }}"
+            uniqueId: 'new',
         },
         renderingConfig: {
             codeSyntaxHighlighting: true

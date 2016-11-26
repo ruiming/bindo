@@ -80,6 +80,9 @@ body {
     cursor: pointer;
     overflow: hidden;
     display: block;
+    p {
+        height: 20px;
+    }
     &:last-child {
         border-bottom: 0;
     }
