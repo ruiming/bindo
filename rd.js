@@ -11,10 +11,15 @@ const _ = require('underscore')
 const mdDir = path.join(__dirname, 'posts')
 const publicDir = path.join(__dirname, 'public')
 const templateDir = path.join(__dirname, 'templates')
+const dbDir = path.join(__dirname, 'data')
 const config = path.join(__dirname, 'config.yml')
 const template = {
     index:  path.join(templateDir, 'index.html'),
-    post:   path.join(templateDir, 'base.html')
+    post:   path.join(templateDir, 'post.html')
+}
+const database = {
+    post:   path.join(dbDir, 'post'),
+    posts:  dbDir
 }
 
 /**
@@ -30,6 +35,9 @@ var cfg = null
 module.exports.init = co.wrap(function *() {
     cfg = yaml.safeLoad(fs.readFileSync(config))
     yield [
+        fs.ensureDirAsync(dbDir),
+        fs.ensureDirAsync(database['post']),
+        fs.ensureDirAsync(database['posts']),
         fs.ensureDirAsync(mdDir),
         fs.ensureDirAsync(templateDir)
     ]
@@ -113,3 +121,22 @@ module.exports.parseFile = co.wrap(function *(filename) {
     })
 })
 
+// 存储 post 信息
+module.exports.savePost = co.wrap(function *(post) {
+    yield fs.writeJsonAsync(
+        path.join(database['post'], `${post.id}.json`),
+        JSON.stringify({
+            post: post
+        })
+    )
+})
+
+// 存储全部 post 信息
+module.exports.savePosts = co.wrap(function *(posts) {
+    yield fs.writeJsonAsync(
+        path.join(database['posts'], 'posts.json'),
+        JSON.stringify({
+            posts: posts
+        })
+    )
+})

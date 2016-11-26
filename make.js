@@ -17,12 +17,14 @@ const make = co.wrap(function *() {
     for (let filename of filenames) {
         let post = yield rd.parseFile(filename)
         posts.push(post)
+        rd.savePost(post)
         yield rd.renderPost(post)
     }
     
     posts = posts.sort((pre, curr) => curr.date - pre.date)
     tags = _.uniq(_.flatten(posts.map(post => post.tags)))
-
+    rd.savePosts(posts)
+    
     posts = rd.splitPosts(posts)
     rd.renderIndex({
         posts: posts[0],
@@ -39,8 +41,8 @@ const make = co.wrap(function *() {
             page: posts.length
         })
     }
-    
+
     console.log('done')
 })
-
+make()
 module.exports = make
