@@ -5,119 +5,42 @@ const marked = require('marked')
 const yaml = require('js-yaml')
 const swig = require('swig')
 const hl = require('highlight').Highlight
-const config = require('./config')
 const _ = require('underscore')
+const rd = require('./rd')
 
-/**
- * 生成静态博客
- */
+// TODO let ... of ... ? map ?
 const make = co.wrap(function *() {
-    /* 清理 TODO 文件夹不存在时 */
-    let cpublic = yield fs.readdirAsync(`${__dirname}/public`)
-    if (cpublic) {
-        let clean = ['post', 'page']
-        for(let folder of clean) {
-            let cfilenames = yield fs.readdirAsync(`${__dirname}/public/${folder}`)
-            if (cfilenames) {
-                for (let cfilename of cfilenames) {
-                    yield fs.unlinkAsync(`${__dirname}/public/${folder}/${cfilename}`)
-                }
-            } else {
-                yield fs.mkdirAsync(`${__dirname}/public/${folder}`)
-            }
-        }
-    }
-
-    const cfg = config
-    let filenames = yield fs.readdirAsync('./posts')
-    filenames = filenames.filter(filename => filename.split('.').pop() === 'md')
-
-    let posts = [], temp = [], page = 0, meta, per_page = cfg.pagination.index_page
-
-    // 渲染 post
+    let config = yield rd.init()
+    let filenames = yield rd.getMdFiles()
+    let posts = []
+    
     for (let filename of filenames) {
-        post = yield fs.readFileAsync(`./posts/${filename}`, 'utf-8')
-        post = Object.assign({}, _parse(post), {
-            config: cfg,
-            name: filename.replace(/\s+/g, '-'),
-            link: `/post/${filename.replace(/\s+/g, '-').split('.').shift()}.html`
-        })
+        let post = yield rd.parseFile(filename)
         posts.push(post)
-        yield fs.writeFileAsync(
-            `${__dirname}/public/${post.link}`,
-            swig.renderFile(
-                `${__dirname}/templates/post.html`,
-                post
-            )
-        )
+        yield rd.renderPost(post)
     }
-
-    // 存储
+    
     posts = posts.sort((pre, curr) => curr.date - pre.date)
     tags = _.uniq(_.flatten(posts.map(post => post.tags)))
-    // 存储每篇解析后的文章数据(按其 ID 存储)
-    posts.forEach(post => fs.writeFileAsync(`${__dirname}/data/${post.id}.rt`, JSON.stringify({
-        post: post
-    })))
-    // 存储全部解析后的文章数据
-    fs.writeFileAsync(`${__dirname}/data/posts.rt`, JSON.stringify({
-        posts: posts
-    }))
-    // 存储所有标签
-    fs.writeFileAsync(`${__dirname}/data/tags.rt`, JSON.stringify({
-        tags: tags
-    }))
 
-    // 分页
-    page = Math.ceil(posts.length / cfg.pagination.index_page)
-    for (let index = 0; index < page; index++) {
-        temp.push(posts.slice(index * per_page, index * per_page + per_page))
-    }
-    posts = temp
+    posts = rd.splitPosts(posts)
+    rd.renderIndex({
+        posts: posts[0],
+        config: config,
+        currentPage: 1,
+        page: posts.length
+    })
     
-    // 渲染 index
-    let template = __dirname + '/templates/index.html'
-    yield fs.writeFileAsync(
-        `${__dirname}/public/index.html`, 
-        swig.renderFile(
-            template, 
-            Object.assign({}, meta, {
-                posts: posts[0],
-                config: cfg,
-                currentPage: 1,
-                page: page
-            })
-        )
-    )
-
-    // 渲染 page
-    for (let i=0; i<posts.length; i++) {
-        yield fs.writeFileAsync(
-            `${__dirname}/public/page/${i + 1}.html`, 
-            swig.renderFile(
-                template, 
-                Object.assign({}, meta, {
-                    posts: posts[i],
-                    config: cfg,
-                    currentPage: i+1,
-                    page: page
-                })
-            )
-        )
-    }
-
-
-    // 解析
-    function _parse(post) {
-        let block = post.match(/^---([\s\S]*?)---\s*/)
-        let content = post.slice(block.index + block[0].length)
-        console.log(block[1])
-        meta = yaml.safeLoad(block[1])
-        return Object.assign({}, meta, {
-            content: hl(marked(content), false, true)
+    for (let post of posts) {
+        yield rd.renderPage({
+            posts: post,
+            config: config,
+            currentPage: posts.indexOf(post) + 1,
+            page: posts.length
         })
     }
-
+    
+    console.log('done')
 })
 
 module.exports = make
