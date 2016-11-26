@@ -21,7 +21,7 @@
             // TODO 失败处理
             // 清除保存的数据，进行跳转
             localStorage.removeItem('smde_new')
-            window.location.href = "/post/" + title.replace(/\s+/g, '-') + ".html"
+            window.location.href = "/post/" + title.replace(/\s+/g, '-') + "/"
         })
     })
     var simplemde = new SimpleMDE({ 

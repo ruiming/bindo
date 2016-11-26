@@ -10,7 +10,8 @@ const rd = require('./rd')
 
 // TODO let ... of ... ? map ?
 const make = co.wrap(function *() {
-    let config = yield rd.init()
+    yield rd.rebuild()
+    let config = rd.get('config')
     let filenames = yield rd.getMdFiles()
     let posts = []
     
@@ -24,6 +25,7 @@ const make = co.wrap(function *() {
     posts = posts.sort((pre, curr) => curr.date - pre.date)
     tags = _.uniq(_.flatten(posts.map(post => post.tags)))
     rd.savePosts(posts)
+    rd.saveTags(tags)
     
     posts = rd.splitPosts(posts)
     rd.renderIndex({
@@ -44,5 +46,4 @@ const make = co.wrap(function *() {
 
     console.log('done')
 })
-make()
 module.exports = make

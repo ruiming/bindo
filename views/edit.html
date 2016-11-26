@@ -2,10 +2,10 @@
 {% block body %}
     {% include 'header.html' %}
     <form class="article">
-        <input type="text" name="title" id="title" placeholder="标题" value="{{post.title}}">
-        <input id="tags" name="tags" placeholder="标签" value="{{post.tags}}"></input>
+        <input type="text" name="title" id="title" placeholder="标题" value="{{title}}">
+        <input id="tags" name="tags" placeholder="标签" value="{{tags}}"></input>
         <textarea name="content" id="content"></textarea>
-        <article id="article" style="display: none">{{ post.content|safe }}</article>
+        <article id="article" style="display: none">{{ content|safe }}</article>
         <input type="button" id="submit">
     </form>
     <script>
@@ -14,8 +14,8 @@
         var title = $("#title").val(),
             tags = $("#tags").val(),
             content = simplemde.value()
-            id = "{{ post.id|safe }}",
-            date = "{{ post.date|date('Y-m-d H:i:s') }}"
+            id = "{{ id|safe }}",
+            date = "{{ date|date('Y-m-d H:i:s') }}"
         $.post('/rocket/new', {
             title,
             tags,
@@ -24,7 +24,7 @@
             date
         }, function(result) {
             localStorage.removeItem('smde_' + id)
-            window.location.href = "/post/" + title.replace(/\s+/g, '-') + ".html"
+            window.location.href = "/post/" + title.replace(/\s+/g, '-') + "/"
         })
     })
     var simplemde = new SimpleMDE({ 
@@ -34,7 +34,7 @@
         autosave: {
             enabled: true,
             delay: 10000,
-            uniqueId: "{{ post.id|safe }}"
+            uniqueId: "{{ id|safe }}"
         },
         renderingConfig: {
             codeSyntaxHighlighting: true
@@ -47,7 +47,7 @@
         labelField: 'tag',
         valueField: 'tag',        
         searchField: ['tag'],
-        options: {{ tags|json_encode|safe }},
+        options: {{ all_tags|json_encode|safe }},
         create: function(input) {
             return {
                 tag: input

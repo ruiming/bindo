@@ -19,7 +19,7 @@
     <script>
     $('.delete').on("click", function(event) {
         event.preventDefault(); 
-        var id = $('.delete').attr('id')
+        var id = event.target.id
         $.ajax({
            url: '/rocket/post/' + id,
            type: 'DELETE',

@@ -12,7 +12,7 @@ const mdDir = path.join(__dirname, 'posts')
 const publicDir = path.join(__dirname, 'public')
 const templateDir = path.join(__dirname, 'templates')
 const dbDir = path.join(__dirname, 'data')
-const config = path.join(__dirname, 'config.yml')
+const configFile = path.join(__dirname, 'config.yml')
 const template = {
     index:  path.join(templateDir, 'index.html'),
     post:   path.join(templateDir, 'post.html')
@@ -22,32 +22,60 @@ const database = {
     posts:  dbDir
 }
 
+// TODO 改用类实现
+
 /**
  * 内存数据
  */
-var cfg = null
+var config = null,
+    posts = null,
+    tags = null
 
 /**
  * 方法
  */
 
-// 初始化, 清理旧文件, 创建需要的文件夹, 并返回配置文件
+// 初始化, 创建需要的文件夹, 读取内存数据
 module.exports.init = co.wrap(function *() {
-    cfg = yaml.safeLoad(fs.readFileSync(config))
+    config = yaml.safeLoad(fs.readFileSync(configFile))
+    posts = JSON.parse(fs.readJsonSync(path.join(dbDir, 'posts.json')))
+    tags = JSON.parse(fs.readJsonSync(path.join(dbDir, 'tags.json')))
+
     yield [
         fs.ensureDirAsync(dbDir),
-        fs.ensureDirAsync(database['post']),
-        fs.ensureDirAsync(database['posts']),
         fs.ensureDirAsync(mdDir),
-        fs.ensureDirAsync(templateDir)
+        fs.ensureDirAsync(templateDir),
+        fs.ensureDirAsync(database['post'])        
     ]
+
+
+})
+
+// 重新构建, 删除旧数据
+module.exports.rebuild = co.wrap(function *() {
     yield [
         fs.removeAsync(path.resolve(publicDir, 'page')),
         fs.removeAsync(path.resolve(publicDir, 'post')),
         fs.removeAsync(path.resolve(publicDir, 'index.html'))
     ]
-    return cfg
 })
+
+// 获取信息
+// 禁止修改
+module.exports.get = function (key, id) {
+    switch(key) {
+        case 'posts':
+            return posts
+        case 'tags':
+            return tags
+        case 'config':
+            return config
+        case 'post':
+            return posts.posts.find(post => post.id.toString() === id.toString())
+        default:
+            return {}
+    }
+}
 
 // 获取 md 文章列表
 module.exports.getMdFiles = co.wrap(function *() {
@@ -97,7 +125,7 @@ const render = co.wrap(function *(dist, template, data) {
 
 // 划分 posts 用于分页
 module.exports.splitPosts = function (posts) {
-    let config = cfg, temp = []
+    let temp = []
     let per_page = config['pagination']['index_page']
     let page = Math.ceil(posts.length / per_page )
     for (let index=0; index<page; index++) {
@@ -117,7 +145,7 @@ module.exports.parseFile = co.wrap(function *(filename) {
         name:    name,
         link:    `/post/${name}/`,
         content: hl(marked(content), false, true),
-        config:  cfg
+        config:  config
     })
 })
 
@@ -132,11 +160,45 @@ module.exports.savePost = co.wrap(function *(post) {
 })
 
 // 存储全部 post 信息
-module.exports.savePosts = co.wrap(function *(posts) {
+module.exports.savePosts = co.wrap(function *(data) {
+    posts = { posts: data }
     yield fs.writeJsonAsync(
-        path.join(database['posts'], 'posts.json'),
+        path.join(dbDir, 'posts.json'),
         JSON.stringify({
-            posts: posts
+            posts: data
         })
+    )
+})
+
+// 存储全部标签信息
+module.exports.saveTags = co.wrap(function *(data) {
+    tags = { tags: data }
+    yield fs.writeJsonAsync(
+        path.join(dbDir,'tags.json'),
+        JSON.stringify({
+            tags: data
+        })
+    )
+})
+
+// 删除 md 文档
+// TODO 旧文章兼容
+module.exports.deleteMd = co.wrap(function *(id) {
+    let post = posts.posts.find(post => post.id.toString() === id.toString())
+    yield fs.removeAsync(
+        path.join(mdDir, `${post.title}.md`)
+    )
+})
+
+// 创建新的 md 文档
+module.exports.createMd = co.wrap(function *(data) {
+    // Format
+    let post = `---\ntitle: ${data.title}\ndate: ${data.date}\nid: ${data.id}\ntags:\n`
+    data.tags.split(',').forEach(tag => post += `- ${tag}\n`)
+    post += '\n---\n' + data.content
+    // Output
+    yield fs.outputFileAsync(
+        path.resolve(mdDir, `${data.title}.md`),
+        post
     )
 })
