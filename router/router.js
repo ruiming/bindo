@@ -39,10 +39,12 @@ router.get('/edit/:id', co.wrap(function *(ctx, next) {
     }))
 }))
 
+// 编辑配置页面
 router.get('/config', co.wrap(function *(ctx, next) {
     let config = yield fs.readFileAsync(path.resolve(__dirname, '../config.yml'), 'utf-8')
     yield ctx.render('config', {
-        config: rd.get('config')
+        config: rd.get('config'),
+        cfg: config
     })
 }))
 
