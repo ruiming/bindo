@@ -32,7 +32,8 @@ const database = {
  */
 var config = null,
     posts = null,
-    tags = null
+    tags = null,
+    rawposts = []
 
 /**
  * 方法
@@ -77,7 +78,9 @@ module.exports.get = function (key, id) {
         case 'config':
             return config
         case 'post':
-            return posts.posts.find(post => post.id.toString() === id.toString())
+            let post = rawposts.find(post => post.id.toString() === id.toString())
+            post.content = unescape(post.content)
+            return post
         default:
             return {}
     }
@@ -147,6 +150,9 @@ module.exports.parseFile = co.wrap(function *(filename) {
     let content = post.slice(block.index + block[0].length)
     let meta = yaml.safeLoad(block[1])
     let name = meta.title && meta.title.toString().replace(/\s+/g, '-')
+    rawposts.push(Object.assign({}, meta, {
+        content: content
+    }))
     return Object.assign(meta, {
         name:    name,
         link:    `/post/${name}/`,
