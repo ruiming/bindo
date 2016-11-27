@@ -11,13 +11,12 @@ var asyncBusboy = require('async-busboy')
 const router = new Router({
     prefix: '/rocket'
 })
-const config = rd.get('config')
 
 // 后台主页页面
 router.get('/', co.wrap(function *(ctx, next) {
     let posts = rd.get('posts')
     yield ctx.render('index', Object.assign({}, posts, {
-        config: config
+        config: rd.get('config')
     }))
 }))
 
@@ -26,7 +25,7 @@ router.get('/new', co.wrap(function *(ctx, next) {
     let tags = rd.get('tags')
     yield ctx.render('create', Object.assign({}, {
         tags: tags.tags.map(tag => Object.assign({ tag: tag })),
-        config: config
+        config: rd.get('config')
     }))
 }))
 
@@ -42,7 +41,7 @@ router.get('/edit/:id', co.wrap(function *(ctx, next) {
 router.get('/config', co.wrap(function *(ctx, next) {
     let config = yield fs.readFileAsync(path.resolve(__dirname, '../config.yml'), 'utf-8')
     yield ctx.render('config', {
-        config: config
+        config: rd.get('config')
     })
 }))
 
