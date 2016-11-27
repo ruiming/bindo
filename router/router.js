@@ -4,7 +4,6 @@ var fs = Promise.promisifyAll(require('fs'))
 var co = require('co')
 var path = require('path')
 var make = require('../make')
-var config = require('../config')
 var yaml = require('js-yaml')
 var rd = require('../rd')
 var asyncBusboy = require('async-busboy')
@@ -12,6 +11,7 @@ var asyncBusboy = require('async-busboy')
 const router = new Router({
     prefix: '/rocket'
 })
+const config = rd.get('config')
 
 // 后台主页页面
 router.get('/', co.wrap(function *(ctx, next) {

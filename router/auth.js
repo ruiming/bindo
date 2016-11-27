@@ -4,7 +4,6 @@ var fs = Promise.promisifyAll(require('fs'))
 var co = require('co')
 var path = require('path')
 var make = require('../make')
-var config = require('../config')
 var yaml = require('js-yaml')
 var rd = require('../rd')
 
