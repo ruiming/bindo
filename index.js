@@ -19,6 +19,7 @@ co(function *() {
 
     yield rd.init()
     yield make()
+    rd.runGulp()
 
     app.use(serve(path.resolve(__dirname, './public')))
 

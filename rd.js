@@ -7,6 +7,9 @@ const marked = require('marked')
 const swig = require('swig')
 const hl = require('highlight').Highlight
 const _ = require('underscore')
+const gulp = require('gulp')
+const postcss = require('gulp-postcss')
+const concat = require('gulp-concat')
 
 const mdDir = path.join(__dirname, 'posts')
 const publicDir = path.join(__dirname, 'public')
@@ -45,7 +48,9 @@ module.exports.init = co.wrap(function *() {
         fs.ensureDirAsync(dbDir),
         fs.ensureDirAsync(mdDir),
         fs.ensureDirAsync(templateDir),
-        fs.ensureDirAsync(database['post'])        
+        fs.ensureDirAsync(database['post']),
+        fs.ensureDirAsync(path.resolve(publicDir, 'css'))
+        fs.ensureDirAsync(path.resolve(publicDir, 'img'))
     ]
 
 
@@ -201,4 +206,23 @@ module.exports.createMd = co.wrap(function *(data) {
         path.resolve(mdDir, `${data.title}.md`),
         post
     )
+})
+
+// 重新编译 CSS
+module.exports.runGulp = function () {
+    gulp.task('default', function () {
+        gulp.src(['./static/main.css',
+              './static/markdown.css'])
+        .pipe(postcss([ require('postcss-nested'), require('postcss-cssnext')] ))
+        .pipe(concat('blog.min.css'))
+        .pipe(gulp.dest('./public/css'))
+
+        gulp.src(['./static/rocket.css',
+                './static/markdown.css'])
+            .pipe(postcss([ require('postcss-nested'), require('postcss-cssnext')] ))
+            .pipe(concat('rocket.min.css'))
+            .pipe(gulp.dest('./public/css'))
+    })
+
+    gulp.start('default')
 })
