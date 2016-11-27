@@ -47,9 +47,10 @@ module.exports.init = co.wrap(function *() {
     yield [
         fs.ensureDirAsync(dbDir),
         fs.ensureDirAsync(mdDir),
+        fs.ensureDirAsync(publicDir),        
         fs.ensureDirAsync(templateDir),
         fs.ensureDirAsync(database['post']),
-        fs.ensureDirAsync(path.resolve(publicDir, 'css'))
+        fs.ensureDirAsync(path.resolve(publicDir, 'css')),
         fs.ensureDirAsync(path.resolve(publicDir, 'img'))
     ]
 
@@ -145,7 +146,7 @@ module.exports.parseFile = co.wrap(function *(filename) {
     let block = post.match(/^---([\s\S]*?)---\s*/)
     let content = post.slice(block.index + block[0].length)
     let meta = yaml.safeLoad(block[1])
-    let name = meta.title.toString().replace(/\s+/g, '-')
+    let name = meta.title && meta.title.toString().replace(/\s+/g, '-')
     return Object.assign(meta, {
         name:    name,
         link:    `/post/${name}/`,
@@ -208,7 +209,7 @@ module.exports.createMd = co.wrap(function *(data) {
     )
 })
 
-// 重新编译 CSS
+// 静态资源处理
 module.exports.runGulp = function () {
     gulp.task('default', function () {
         gulp.src(['./static/main.css',
@@ -222,7 +223,13 @@ module.exports.runGulp = function () {
             .pipe(postcss([ require('postcss-nested'), require('postcss-cssnext')] ))
             .pipe(concat('rocket.min.css'))
             .pipe(gulp.dest('./public/css'))
+
+        gulp.src(['./static/*.js'])
+            .pipe(gulp.dest('./public/js/'))
+
+        gulp.src(['./images/*'])
+            .pipe(gulp.dest('./public/img/'))
     })
 
     gulp.start('default')
-})
+}

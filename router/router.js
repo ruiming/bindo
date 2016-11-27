@@ -7,6 +7,7 @@ var make = require('../make')
 var config = require('../config')
 var yaml = require('js-yaml')
 var rd = require('../rd')
+var asyncBusboy = require('async-busboy')
 
 const router = new Router({
     prefix: '/rocket'
@@ -76,6 +77,21 @@ router.delete('/post/:id', co.wrap(function *(ctx, next) {
     ctx.body = {
         success: true,
         data:    ctx.params.id
+    }
+}))
+
+// 上传图片
+router.post('/upload', co.wrap(function *(ctx, next) {
+    const { files, fields } = yield asyncBusboy(ctx.req)
+    try {
+        files.map(file => file.pipe(fs.createWriteStream(path.resolve(__dirname, 'image', fields.name||file.filename))))
+    } catch(e) {
+        ctx.body = {
+            message: e
+        }
+    }
+    ctx.body = {
+        success: true
     }
 }))
 

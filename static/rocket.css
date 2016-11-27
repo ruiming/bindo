@@ -187,3 +187,37 @@ body {
     background: #03A9F4;
     color: #fff;
 }
+.save {
+    margin-top: -52px;
+    float: right;
+    width: 86px !important;
+}
+/* image upload */
+#uploader {
+    #filePicker input{
+        padding: 10px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    }
+    .webuploader-pick {
+        margin-bottom: 10px;
+        border-radius: 0;
+        background: #03a9f4 !important;
+    }
+    .file-item,
+    .thumbnail {
+        padding-right: 10px;
+        margin-bottom: 10px;
+        float: left;
+    }
+    .info {
+        font-size: 12px;
+        width: 150px;
+        color: #666;
+        text-align: center;
+        word-break: break-all;
+        white-space: pre;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}
