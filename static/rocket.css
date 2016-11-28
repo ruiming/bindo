@@ -194,12 +194,16 @@ body {
     color: #fff;
 }
 .save {
-    margin-top: -52px;
-    float: right;
+    position: absolute;
+    right: 0;
     width: 86px !important;
+    top: 0;
+    z-index: 10;
+    cursor: pointer;
 }
 /* image upload */
 #uploader {
+    position: relative;
     #filePicker input{
         padding: 10px;
         box-sizing: border-box;
@@ -226,4 +230,11 @@ body {
         text-overflow: ellipsis;
         overflow: hidden;
     }
+}
+/* notice */
+#notie-alert-inner {
+    padding: 5px !important;
+}
+#notie-alert-content {
+    font-size: 16px !important;
 }

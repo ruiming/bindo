@@ -17,18 +17,20 @@
         {% endfor %}
     </ul>
     <script>
+    // 删除文章
     $('.delete').on("click", function(event) {
         event.preventDefault(); 
         var id = event.target.id
         $.ajax({
            url: '/rocket/post/' + id,
            type: 'DELETE',
-           // TODO 失败处理
-           // 成功删除后移除 localstroage 和该 DOM 节点
            success: function(result) {
                 localStorage.removeItem('smde_' + id)
                 $('#' + id).parent().parent().remove()
-                alert('删除成功')
+                notie.alert('success', '删除成功', 2) 
+           },
+           error: function(res) {
+               notie.alert('error', res.responseJSON.message, 3)
            }
         })
     })
