@@ -1,6 +1,3 @@
 /.vscode/
 /public/
-/posts/*
 /node_modules/
-/data/
-/images/
