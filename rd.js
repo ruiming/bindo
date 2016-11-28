@@ -42,8 +42,6 @@ var config = null,
 // 初始化, 创建需要的文件夹, 读取内存数据
 module.exports.init = co.wrap(function *() {
     config = yaml.safeLoad(fs.readFileSync(configFile))
-    posts = JSON.parse(fs.readJsonSync(path.join(dbDir, 'posts.json')))
-    tags = JSON.parse(fs.readJsonSync(path.join(dbDir, 'tags.json')))
 
     yield [
         fs.ensureDirAsync(dbDir),
@@ -55,8 +53,8 @@ module.exports.init = co.wrap(function *() {
         fs.ensureDirAsync(path.resolve(publicDir, 'img'))
     ]
 
-
 })
+
 
 // 重新构建, 删除旧数据
 module.exports.rebuild = co.wrap(function *() {
