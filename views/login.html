@@ -24,9 +24,10 @@
                 password
             },
             success: function(data) {
+                window.location.href = '/rocket'
             },
-            error: function(error, status, thrown) {
-                alert(error.responseJSON.message)
+            error: function(res) {
+                notie.alert('error', res.responseJSON.message, 3)
             }
         })
     })
