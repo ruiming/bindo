@@ -7,6 +7,7 @@ const serve = require('koa-static')
 const swig = require('koa-swig')
 const router = require('./router/router')
 const authRouter = require('./router/auth')
+const initRouter = require('./router/init')
 const bodyparser = require('koa-bodyparser')
 const rd = require('./rd')
 const jwt = require('koa-jwt')
@@ -31,17 +32,20 @@ co(function *() {
 
     app.use(auth())
 
+    app.use(initRouter.routes())
+
     app.use(authRouter.routes())
 
     app.use(jwt({
-        secret:     rd.get('config').secret,
+        secret:     rd.get('secret'),
         algorithm:  'RS256'
     }))
 
     app.context.render = co.wrap(swig({
         root: path.join(__dirname, 'views'),
         autoescape: true,
-        ext: 'html'
+        ext: 'html',
+        cache: false
     }))
 
     app.use(router.routes())

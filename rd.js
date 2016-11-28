@@ -28,15 +28,16 @@ const template = {
 let config = null,
     posts = null,
     tags = null,
+    secret = '1i5hy1u54jq7jywegy5jk9kc2124',
     rawposts = []
 
 /**
  * 方法
  */
 
-// 初始化, 创建需要的文件夹, 读取内存数据
+// 初始化, 创建需要的文件夹, 获取配置
 module.exports.init = co.wrap(function *() {
-    config = yaml.safeLoad(fs.readFileSync(configFile))
+    config = yaml.safeLoad(yield fs.readFileAsync(configFile))
 
     yield [
         fs.ensureDirAsync(mdDir),
@@ -49,8 +50,10 @@ module.exports.init = co.wrap(function *() {
 })
 
 
-// 重新构建, 删除旧数据
+// 重新构建, 删除旧数据, 重新获取配置
 module.exports.rebuild = co.wrap(function *() {
+    config = yaml.safeLoad(yield fs.readFileAsync(configFile))
+
     yield [
         fs.removeAsync(path.resolve(publicDir, 'page')),
         fs.removeAsync(path.resolve(publicDir, 'post')),
@@ -68,6 +71,8 @@ module.exports.get = function (key, id) {
             return tags
         case 'config':
             return config
+        case 'secret':
+            return secret
         case 'post':
             let post = rawposts.find(post => post.id.toString() === id.toString())
             post.content = unescape(post.content)

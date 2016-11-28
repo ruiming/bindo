@@ -26,7 +26,7 @@ module.exports = function () {
                     id:  _id,
                     xsrf,
                     exp: date / 1000,
-                }, config.secret)
+                }, rd.get('secret'))
             ctx.cookies.set('xsrf-token', xsrf, {
                 httpOnly:  false,
                 overwrite: true,

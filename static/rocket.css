@@ -238,3 +238,49 @@ body {
 #notie-alert-content {
     font-size: 16px !important;
 }
+/* init */
+.init {
+    padding: 20px 0;
+    h2 {
+        margin-top: 0;
+    }
+    .submit {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #eee;
+        padding: 10px;
+        box-sizing: border-box;
+        outline: none;
+        resize: none;
+        &:focus {
+            border-bottom: 1px solid #d6d6d6;
+        }
+    }
+    .group {
+        box-sizing: border-box;
+        margin-bottom: 15px;
+        label {
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        input {
+            box-sizing: border-box;
+            display: block;
+            width: 100%;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            &:focus {
+                border: 1px solid #00bcd4;
+            }
+        }
+    }
+}

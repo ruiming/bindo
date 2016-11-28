@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<title>博客后端系统</title>
+<link rel="stylesheet" href="/css/rocket.min.css">
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+</head>
+<body>
+    <header class="me">
+        <img src="/img/rocket.svg">
+        <div class="blog">
+            <h1><a href="/rocket">博客后端系统</a></h1>
+        </div>
+    </header>
+    <form class="init">
+        <h2>请先对您的博客进行配置, *为必填项, 其余项可后续继续修改</h2>
+        <div class="group">
+            <label for="title">*标题: </label>
+            <input type="text" id="title">
+        </div>
+        <div class="group">
+            <label for="username">*用户名: </label>
+            <input type="text" id="username">
+        </div>
+        <div class="group">
+            <label for="password">*密码: </label>
+            <input type="password" id="password">
+        </div>
+        <div class="group">
+            <label for="description">简介: </label>
+            <input type="text" id="description">
+        </div>
+        <div class="group">
+            <label for="github">Github: </label>
+            <input type="text" id="github">
+        </div>
+        <div class="group">
+            <label for="google-plus">GooglePlus: </label>
+            <input type="text" id="google-plus">
+        </div>
+        <input type="button" class="submit" id="submit" value="确认">
+    </form>
+    <script>
+        $('#submit').click(function() {
+            var title = $('#title').val(),
+                username = $('#username').val(),
+                password = $('#password').val(),
+                description = $('#description').val(),
+                github = $('#github').val(),
+                googlePlus = $('#google-plus').val()
+            if (!title || !username || !password) {
+                notie.alert('error', '请完成全部必填项', 2)
+            } else {
+                $.ajax({
+                    method: 'post',
+                    url: '/init',
+                    data: {
+                        title,
+                        username,
+                        password,
+                        description,
+                        github,
+                        googlePlus
+                    },
+                    success: function() {
+                        window.location.href = '/rocket'
+                    },
+                    error: function(res) {
+                        notie.alert('error', res.responseJSON.message, 3)
+                    }
+                })
+            }
+        })
+    </script>
+<link href="//cdn.bootcss.com/simplemde/1.11.2/simplemde.min.css" rel="stylesheet">
+<script src="//cdn.bootcss.com/simplemde/1.11.2/simplemde.min.js"></script>
+<link href="//cdn.bootcss.com/selectize.js/0.12.4/css/selectize.css" rel="stylesheet">
+<script src="//cdn.bootcss.com/selectize.js/0.12.4/js/standalone/selectize.min.js"></script>
+<script src="//cdn.bootcss.com/webuploader/0.1.1/webuploader.min.js"></script>
+<link href="//cdn.bootcss.com/webuploader/0.1.1/webuploader.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/notie/3.9.4/notie.min.css" rel="stylesheet">
+<script src="//cdn.bootcss.com/notie/3.9.4/notie.min.js"></script>
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">    
+<link href="//cdn.bootcss.com/highlight.js/9.8.0/styles/default.min.css" rel="stylesheet">
+<script src="//cdn.bootcss.com/highlight.js/9.8.0/highlight.min.js"></script>
+</body>

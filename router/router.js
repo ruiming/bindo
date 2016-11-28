@@ -69,7 +69,6 @@ router.post('/config', co.wrap(function *(ctx, next) {
     }
 }))
 
-
 // 发布/修改文章
 router.post('/new', co.wrap(function *(ctx, next) {
     let { title, tags, content, id, date } = ctx.request.body
