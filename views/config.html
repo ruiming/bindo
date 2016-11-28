@@ -8,6 +8,14 @@
         <input type="button" id="submit" class="submit" value="提交">
     </form>
     <script>
+    $('#submit').click(function() {
+        var config = simplemde.value()
+        $.post('/rocket/config', {
+            config: config
+        }, function(result) {
+            alert("保存成功")
+        })
+    })
     var simplemde = new SimpleMDE({ 
         autoDownloadFontAwesome: false,
         element: document.getElementById("content"),

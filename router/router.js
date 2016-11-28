@@ -49,6 +49,26 @@ router.get('/config', co.wrap(function *(ctx, next) {
     })
 }))
 
+// 保存配置修改
+router.post('/config', co.wrap(function *(ctx, next) {
+    let config = ctx.request.body.config
+    try {
+        yaml.safeLoad(config)
+    } catch(e) {
+        ctx.status = 400
+        return ctx.body = {
+            success: false,
+            message: `配置格式有误, 不是规范的 YAML 格式\n${e}`
+        }
+    }
+    yield fs.writeFileAsync(path.resolve(__dirname, '../config.yml'), config)
+    ctx.body = {
+        success: true,
+        data: '保存成功'
+    }
+}))
+
+
 // 发布/修改文章
 router.post('/new', co.wrap(function *(ctx, next) {
     let { title, tags, content, id, date } = ctx.request.body
