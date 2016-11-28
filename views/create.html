@@ -43,7 +43,11 @@
                     {% endif %}
                 },
                 success: function(result) {
+                    {% if id %}
+                    localStorage.removeItem('smde_{{id}}')
+                    {% else %}
                     localStorage.removeItem('smde_new')
+                    {% endif %}
                     notie.alert('success', '保存成功', 1)
                     setTimeout(function(){
                         window.location.href = "/post/" + title.replace(/\s+/g, '-') + "/"
