@@ -14,15 +14,10 @@ const concat = require('gulp-concat')
 const mdDir = path.join(__dirname, 'posts')
 const publicDir = path.join(__dirname, 'public')
 const templateDir = path.join(__dirname, 'templates')
-const dbDir = path.join(__dirname, 'data')
 const configFile = path.join(__dirname, 'config.yml')
 const template = {
     index:  path.join(templateDir, 'index.html'),
     post:   path.join(templateDir, 'post.html')
-}
-const database = {
-    post:   path.join(dbDir, 'post'),
-    posts:  dbDir
 }
 
 // TODO 改用类实现
@@ -30,7 +25,7 @@ const database = {
 /**
  * 内存数据
  */
-var config = null,
+let config = null,
     posts = null,
     tags = null,
     rawposts = []
@@ -44,11 +39,9 @@ module.exports.init = co.wrap(function *() {
     config = yaml.safeLoad(fs.readFileSync(configFile))
 
     yield [
-        fs.ensureDirAsync(dbDir),
         fs.ensureDirAsync(mdDir),
         fs.ensureDirAsync(publicDir),        
         fs.ensureDirAsync(templateDir),
-        fs.ensureDirAsync(database['post']),
         fs.ensureDirAsync(path.resolve(publicDir, 'css')),
         fs.ensureDirAsync(path.resolve(publicDir, 'img'))
     ]
@@ -101,13 +94,11 @@ module.exports.renderPost = co.wrap(function *(data) {
 
 // 渲染 page 页面
 module.exports.renderPage = co.wrap(function *(data) {
-    console.log(path.join(publicDir, 'page', data.currentPage.toString(), 'index.html'))
     yield render(
         path.join(publicDir, 'page', data.currentPage.toString(), 'index.html'),
         template['index'],
         data
     )
-    console.log('wait')
 })
 
 // 渲染 index 页面
@@ -159,36 +150,14 @@ module.exports.parseFile = co.wrap(function *(filename) {
     })
 })
 
-// 存储 post 信息
-module.exports.savePost = co.wrap(function *(post) {
-    yield fs.writeJsonAsync(
-        path.join(database['post'], `${post.id}.json`),
-        JSON.stringify({
-            post: post
-        })
-    )
-})
-
 // 存储全部 post 信息
 module.exports.savePosts = co.wrap(function *(data) {
     posts = { posts: data }
-    yield fs.writeJsonAsync(
-        path.join(dbDir, 'posts.json'),
-        JSON.stringify({
-            posts: data
-        })
-    )
 })
 
 // 存储全部标签信息
 module.exports.saveTags = co.wrap(function *(data) {
     tags = { tags: data }
-    yield fs.writeJsonAsync(
-        path.join(dbDir,'tags.json'),
-        JSON.stringify({
-            tags: data
-        })
-    )
 })
 
 // 删除 md 文档

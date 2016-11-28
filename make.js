@@ -19,7 +19,6 @@ const make = co.wrap(function *() {
     for (let filename of filenames) {
         let post = yield rd.parseFile(filename)
         posts.push(post)
-        rd.savePost(post)
         yield rd.renderPost(post)
     }
     
