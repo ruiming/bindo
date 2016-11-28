@@ -239,3 +239,12 @@ module.exports.runGulp = function () {
 
     gulp.start('default')
 }
+
+module.exports.buildImg = function() {
+    gulp.task('img', function () {
+        gulp.src(['./images/*'])
+            .pipe(gulp.dest('./public/img/'))
+    })
+
+    gulp.start('img')
+}

@@ -121,6 +121,7 @@ router.post('/upload', co.wrap(function *(ctx, next) {
             message: e
         }
     }
+    rd.buildImg()
     ctx.body = {
         success: true
     }
