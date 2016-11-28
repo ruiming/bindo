@@ -21,7 +21,6 @@
     "gulp-concat": "^2.6.1",
     "gulp-postcss": "^6.2.0",
     "gulp-sourcemaps": "^1.9.1",
-    "highlight": "^0.2.4",
     "js-yaml": "^3.7.0",
     "jsonwebtoken": "^7.1.9",
     "koa": "next",

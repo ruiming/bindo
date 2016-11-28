@@ -5,7 +5,6 @@ const path = require('path')
 const yaml = require('js-yaml')
 const marked = require('marked')
 const swig = require('swig')
-const hl = require('highlight').Highlight
 const _ = require('underscore')
 const gulp = require('gulp')
 const postcss = require('gulp-postcss')
@@ -75,7 +74,6 @@ module.exports.get = function (key, id) {
             return secret
         case 'post':
             let post = rawposts.find(post => post.id.toString() === id.toString())
-            post.content = unescape(post.content)
             return post
         default:
             return {}
@@ -150,7 +148,7 @@ module.exports.parseFile = co.wrap(function *(filename) {
     return Object.assign(meta, {
         name:    name,
         link:    `/post/${name}/`,
-        content: hl(marked(content), false, true),
+        content: marked(content),
         config:  config
     })
 })
