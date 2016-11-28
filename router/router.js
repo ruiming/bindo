@@ -24,8 +24,9 @@ router.get('/', co.wrap(function *(ctx, next) {
 router.get('/new', co.wrap(function *(ctx, next) {
     let tags = rd.get('tags')
     yield ctx.render('create', Object.assign({}, {
-        tags: tags.tags.map(tag => Object.assign({ tag: tag })),
-        config: rd.get('config')
+        all_tags: tags.tags.map(tag => Object.assign({ tag: tag })),
+        config: rd.get('config'),
+        tags: []
     }))
 }))
 
@@ -33,7 +34,7 @@ router.get('/new', co.wrap(function *(ctx, next) {
 router.get('/edit/:id', co.wrap(function *(ctx, next) {
     let post = rd.get('post', ctx.params.id)
     let tags = rd.get('tags')
-    yield ctx.render('edit', Object.assign(post, {
+    yield ctx.render('create', Object.assign(post, {
         config: rd.get('config'),
         all_tags: tags.tags.map(tag => Object.assign({ tag: tag }))
     }))
