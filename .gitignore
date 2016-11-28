@@ -1,3 +1,6 @@
 /.vscode/
 /public/
 /node_modules/
+rocket.lock
+/posts/
+/images/
