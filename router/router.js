@@ -62,6 +62,7 @@ router.post('/config', co.wrap(function *(ctx, next) {
         }
     }
     yield fs.writeFileAsync(path.resolve(__dirname, '../config.yml'), config)
+    yield make()
     ctx.body = {
         success: true,
         data: '保存成功'
