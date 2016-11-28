@@ -2,9 +2,9 @@
 {% block body %}
     {% include 'header.html' %}
     <form class="article">
-        <input type="text" name="title" id="title" placeholder="标题" value="{{title}}">
+        <input type="text" name="title" id="title" placeholder="标题" value="{{title}}" required>
         <input id="tags" name="tags" placeholder="标签" value="{{tags}}"></input>
-        <textarea name="content" id="content"></textarea>
+        <textarea name="content" id="content" required></textarea>
         <article id="article" style="display: none">{{ content }}</article>
         <small class="write-info">拖拽图片至书写区即可上传图片</small>
         <div id="uploader">
@@ -25,29 +25,36 @@
             ,id = "{{ id|safe }}",
             date = "{{ date|date('Y-m-d H:i:s') }}"
             {% endif %}
-        $.ajax({
-            method: 'post',
-            url: '/rocket/new',
-            data: {
-                title,
-                tags,
-                content
-                {% if id and date %}
-                ,id,
-                date
-                {% endif %}
-            },
-            success: function(result) {
-                localStorage.removeItem('smde_new')
-                notie.alert('success', '保存成功', 1)
-                setTimeout(function(){
-                    window.location.href = "/post/" + title.replace(/\s+/g, '-') + "/"
-                }, 1000)
-            },
-            error: function(res) {
-                notie.alert('error', res.responseJSON.message, 3)
-            }
-        })
+        if (title == null || title.length === 0) {
+            notie.alert('error', '标题不能为空', 3)
+        } else if (content == null || content.length === 0) {
+            notie.alert('error', '内容不能为空', 3)
+        } else {
+            $.ajax({
+                method: 'post',
+                url: '/rocket/new',
+                data: {
+                    title,
+                    tags,
+                    content
+                    {% if id and date %}
+                    ,id,
+                    date
+                    {% endif %}
+                },
+                success: function(result) {
+                    localStorage.removeItem('smde_new')
+                    notie.alert('success', '保存成功', 1)
+                    setTimeout(function(){
+                        window.location.href = "/post/" + title.replace(/\s+/g, '-') + "/"
+                    }, 1000)
+                },
+                error: function(res) {
+                    notie.alert('error', res.responseJSON.message, 3)
+                }
+            })
+        }
+        
     })
     var simplemde = new SimpleMDE({ 
         autoDownloadFontAwesome: false,

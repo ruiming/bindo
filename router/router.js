@@ -73,6 +73,13 @@ router.post('/config', co.wrap(function *(ctx, next) {
 // 发布/修改文章
 router.post('/new', co.wrap(function *(ctx, next) {
     let { title, tags, content, id, date } = ctx.request.body
+    if (title == null || !title.length || content == null || !content.length ) {
+        ctx.status = 400
+        return ctx.body = {
+            success: false,
+            message: '请完整填写'
+        }
+    }
     if (id) {
         yield rd.deleteMd(id)
     } else {
@@ -108,7 +115,7 @@ router.delete('/post/:id', co.wrap(function *(ctx, next) {
 router.post('/upload', co.wrap(function *(ctx, next) {
     const { files, fields } = yield asyncBusboy(ctx.req)
     try {
-        files.map(file => file.pipe(fs.createWriteStream(path.resolve(__dirname, 'image', fields.name||file.filename))))
+        files.map(file => file.pipe(fs.createWriteStream(path.resolve(__dirname, '../images', fields.name||file.filename))))
     } catch(e) {
         ctx.body = {
             message: e
