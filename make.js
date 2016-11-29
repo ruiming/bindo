@@ -4,7 +4,6 @@ const co = require('co')
 const marked = require('marked')
 const yaml = require('js-yaml')
 const swig = require('swig')
-const hl = require('highlight').Highlight
 const _ = require('underscore')
 const rd = require('./rd')
 
