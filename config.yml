@@ -1,11 +1,11 @@
 # 请不要在初始化前修改此文件的内容, 初始化过程会重写这个文件
-#Site
+# Site
 title: 某人的博客
 description: 某人的博客
 github: 
 google: 
 
-#Pagination
+# Pagination
 pagination:
   index_page: 5
 
