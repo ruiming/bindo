@@ -23,7 +23,7 @@ const make = co.wrap(function *() {
     }
     
     // 保存 posts 和 tags
-    posts = posts.sort((pre, curr) => curr.date - pre.date)
+    posts = posts.sort((pre, curr) => Date.parse(curr.created_date) - Date.parse(pre.created_date))
     tags = _.uniq(_.flatten(posts.map(post => post.tags)))
     rd.savePosts(posts)
     rd.saveTags(tags)

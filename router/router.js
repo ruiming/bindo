@@ -71,8 +71,8 @@ router.post('/config', co.wrap(function *(ctx, next) {
 
 // 发布/修改文章
 router.post('/new', co.wrap(function *(ctx, next) {
-    let { title, tags, content, id, date } = ctx.request.body
-    if (title == null || !title.length || content == null || !content.length ) {
+    let { title, tags, content, id, created_date, updated_date } = ctx.request.body
+    if (!title.length ||!content.length || !created_date.length || !updated_date.length ) {
         ctx.status = 400
         return ctx.body = {
             success: false,
@@ -83,14 +83,14 @@ router.post('/new', co.wrap(function *(ctx, next) {
         yield rd.deleteMd(id)
     } else {
         id = Date.now()
-        date = Date.now()
     }
     yield rd.createMd({
         title,
         tags,
         content,
         id,
-        date
+        created_date,
+        updated_date
     })
     yield make()
     ctx.body = {

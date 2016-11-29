@@ -175,7 +175,7 @@ module.exports.deleteMd = co.wrap(function *(id) {
 // 创建新的 md 文档
 module.exports.createMd = co.wrap(function *(data) {
     // Format
-    let post = `---\ntitle: ${data.title}\ndate: ${data.date}\nid: ${data.id}\ntags:\n`
+    let post = `---\ntitle: ${data.title}\ncreated_date: ${data.created_date}\nupdated_date: ${data.updated_date}\nid: ${data.id}\ntags:\n`
     data.tags.split(',').forEach(tag => post += `- ${tag}\n`)
     post += '\n---\n' + data.content
     // Output

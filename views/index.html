@@ -7,7 +7,7 @@
         <li class="post">
             <a class="post-msg" href="{{post.link}}">
                 <p>{{ post.title }}</p>
-                <small>{{ post.date|date('Y-m-d H:i:s') }}</small>
+                <small>{{ post.created_date|date('Y-m-d H:i') }}</small>
             </a>
             <div class="post-option">
                 <a href="/rocket/edit/{{post.id}}" class="btn">编辑</a>

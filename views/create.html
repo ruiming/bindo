@@ -2,8 +2,26 @@
 {% block body %}
     {% include 'header.html' %}
     <form class="article">
-        <input type="text" name="title" id="title" placeholder="标题" value="{{title}}" required>
-        <input id="tags" name="tags" placeholder="标签" value="{{tags}}"></input>
+        <div class="text">
+            <div class="group">
+                <label for="title">标题</label>
+                <input type="text" name="title" id="title" value="{{title}}" required>
+            </div>
+            <div class="group">
+                <label for="tags">标签</label>
+                <input id="tags" name="tags" value="{{tags}}"></input>
+            </div>
+        </div>
+        <div class="time">
+            <div class="group">
+                <label for="create">创建时间</label>
+                <input id="create" type="text" value=>
+            </div>
+            <div class="group">
+                <label for="update">修改时间</label>
+                <input id="update" type="text">
+            </div>
+        </div>
         <textarea name="content" id="content" required></textarea>
         <article id="article" style="display: none">{{ content }}</article>
         <small class="write-info">拖拽图片至书写区即可上传图片</small>
@@ -16,19 +34,33 @@
     </form>
 
     <script>
+    $.datetimepicker.setLocale('ch')
+    var currentDate = (new Date()).toJSON().substring(0, 16).replace(/-/g, '/').replace(/[A-Z]/, ' ')
+    $('#create').datetimepicker()
+    $('#update').datetimepicker()
+    {% if created_date %}
+    $('#create').val("{{ created_date|date('Y/m/d H:i') }}")
+    $('#update').val("{{ updated_date|date('Y/m/d H:i') }}")
+    {% else %}
+    $('#create').val(currentDate)
+    $('#update').val(currentDate)
+    {% endif %}
     // 保存文章
     $('#submit').click(function() {
         var title = $("#title").val(),
             tags = $("#tags").val(),
-            content = simplemde.value()
-            {% if id and date %}
-            ,id = "{{ id|safe }}",
-            date = "{{ date|date('Y-m-d H:i:s') }}"
+            content = simplemde.value(),
+            created_date = $("#create").val(),
+            updated_date = $("#update").val()
+            {% if id %}
+            ,id = "{{ id|safe }}"
             {% endif %}
-        if (title == null || title.length === 0) {
+        if (!title.length) {
             notie.alert('error', '标题不能为空', 3)
-        } else if (content == null || content.length === 0) {
+        } else if (!content.length) {
             notie.alert('error', '内容不能为空', 3)
+        } else if (!created_date.length || !updated_date.length) {
+            notie.alert('error', '时间不能为空', 3)
         } else {
             $.ajax({
                 method: 'post',
@@ -36,10 +68,11 @@
                 data: {
                     title,
                     tags,
-                    content
-                    {% if id and date %}
-                    ,id,
-                    date
+                    content,
+                    created_date,
+                    updated_date
+                    {% if id %}
+                    ,id
                     {% endif %}
                 },
                 success: function(result) {
