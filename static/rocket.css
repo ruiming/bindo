@@ -220,7 +220,8 @@ body {
         margin-bottom: 10px;
         float: left;
     }
-    .info {
+    .info,
+    .error {
         font-size: 12px;
         width: 150px;
         color: #666;

@@ -114,15 +114,20 @@ router.delete('/post/:id', co.wrap(function *(ctx, next) {
 router.post('/upload', co.wrap(function *(ctx, next) {
     const { files, fields } = yield asyncBusboy(ctx.req)
     try {
-        files.map(file => file.pipe(fs.createWriteStream(path.resolve(__dirname, '../images', fields.name||file.filename))))
-    } catch(e) {
+        yield fs.accessAsync(path.resolve(__dirname, '../images', fields.name||files[0].filename))
+        ctx.status = 409
         ctx.body = {
-            message: e
+            success: false,
+            message: '存在同名文件'
         }
-    }
-    rd.buildImg()
-    ctx.body = {
-        success: true
+    } catch(e) {
+        files.map(file => co.wrap(function *() {
+            file.pipe(fs.createWriteStream(path.resolve(__dirname, '../images', fields.name||file.filename)))
+        }))
+        rd.buildImg()
+        return ctx.body = {
+            success: true
+        }
     }
 }))
 

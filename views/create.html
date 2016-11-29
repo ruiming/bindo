@@ -69,6 +69,9 @@
             delay: 30000,
             uniqueId: "{{ id|safe }}" || "new"
         },
+        insertTexts: {
+            image: ["![","](/img/)"]
+        },
         renderingConfig: {
             codeSyntaxHighlighting: true
         },
@@ -133,18 +136,13 @@
     })
 
     uploader.on( 'uploadSuccess', function( file ) {
+        notie.alert('success', '上传成功', 2)
         $( '#' + file.id ).addClass('upload-state-done')
     })
 
     uploader.on( 'uploadError', function( file ) {
-        var $li = $( '#'+file.id ),
-            $error = $li.find('div.error')
-
-        if ( !$error.length ) {
-            $error = $('<div class="error"></div>').appendTo( $li )
-        }
-
-        $error.text('上传失败')
+        $('#' + file.id).remove().remove()
+        notie.alert('error', '上传失败, 存在同名文件', 3)
     })
 
     uploader.on( 'uploadComplete', function( file ) {
