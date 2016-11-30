@@ -16,8 +16,8 @@ router.post('/init', co.wrap(function *(ctx, next) {
             message: '你已经完成初始化操作'
         }
     } catch (e) {
-        let { title, username, password, description, github, googlePlus } = ctx.request.body
-        let yml = `# Site\ntitle: ${title}\ndescription: ${description}\ngithub: ${github}\n`
+        let { title, username, password, description, github, googlePlus, avatar } = ctx.request.body
+        let yml = `# Site\ntitle: ${title}\ndescription: ${description}\navatar: ${avatar}\ngithub: ${github}\n`
             + `google: ${googlePlus}\n\n# Pagination\npagination:\n  index_page: 5\n\n`
             + `# Markdown\neditor:\n  minHeight: 600\n  height:\n\n# User\nusername: ${username}\n`
             + `password: ${password}\n # Deploy\nremote: \n`

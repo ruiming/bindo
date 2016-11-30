@@ -24,6 +24,10 @@
             <input type="text" id="title">
         </div>
         <div class="group">
+            <label for="avatar">*头像: </label>
+            <input type="text" id="avatar" value="/img/avatar.png" placeholder="输入头像链接">
+        </div>
+        <div class="group">
             <label for="username">*用户名: </label>
             <input type="text" id="username">
         </div>
@@ -50,10 +54,11 @@
             var title = $('#title').val(),
                 username = $('#username').val(),
                 password = $('#password').val(),
+                avatar = $('#avatar').val(),
                 description = $('#description').val(),
                 github = $('#github').val(),
                 googlePlus = $('#google-plus').val()
-            if (!title || !username || !password) {
+            if (!title || !username || !password || !avatar) {
                 notie.alert('error', '请完成全部必填项', 2)
             } else {
                 $.ajax({
@@ -61,6 +66,7 @@
                     url: '/init',
                     data: {
                         title,
+                        avatar,
                         username,
                         password,
                         description,
