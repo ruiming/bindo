@@ -102,6 +102,7 @@ if (typeof cmdValue === 'undefined') {
                                         console.log(stderr)
                                     }
                                     // PUSH
+                                    console.log('PUSHING...')
                                     exec('proxychains git push origin master', {cwd: path.resolve(process.cwd(), 'public')},
                                     function (err, stdout, stderr) {
                                         if (stderr) {
@@ -115,7 +116,8 @@ if (typeof cmdValue === 'undefined') {
                             }
                         } else {
                             // PUSH
-                            exec('proxychains git push origin master', {cwd: path.resolve(process.cwd(), 'public')},
+                            console.log('PUSHING...')
+                            exec('git push origin master', {cwd: path.resolve(process.cwd(), 'public')},
                             function (err, stdout, stderr) {
                                 if (stderr) {
                                     console.log(stderr)
