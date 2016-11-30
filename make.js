@@ -8,6 +8,7 @@ const bindo = require('./bindo')
 const make = co.wrap(function *(source) {
     yield bindo.init(source)
     yield bindo.rebuild()
+    bindo.runGulp()
     let config = bindo.get('config')
     let filenames = yield bindo.getMdFiles()
     let posts = [], tags = []
@@ -45,4 +46,5 @@ const make = co.wrap(function *(source) {
     }
 
 })
+make()
 module.exports = make

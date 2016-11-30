@@ -20,7 +20,7 @@ router.post('/init', co.wrap(function *(ctx, next) {
         let yml = `# Site\ntitle: ${title}\ndescription: ${description}\navatar: ${avatar}\ngithub: ${github}\n`
             + `google: ${googlePlus}\n\n# Pagination\npagination:\n  index_page: 5\n\n`
             + `# Markdown\neditor:\n  minHeight: 600\n  height:\n\n# User\nusername: ${username}\n`
-            + `password: ${password}\n # Deploy\nremote: \n`
+            + `password: ${password}\n# Deploy\nremote: \nbranch: \n`
         yield yaml.safeLoad(yml)
         yield fs.writeFileAsync(path.resolve(__dirname, '../config.yml'), yml)
         yield fs.writeFileAsync(path.resolve(__dirname, '../bindo.lock'), '')

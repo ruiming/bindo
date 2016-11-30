@@ -92,7 +92,7 @@ if (typeof cmdValue === 'undefined') {
                     exec('git remote', {cwd: path.resolve(process.cwd(), 'public')}, function (err, stdout, stderr) {
                         if (!stdout.length) {
                             console.log(stderr)
-                            if (!config || !config.remote) {
+                            if (!config || !config.remote || !config.branch) {
                                 console.log('请在 config.yml 配置你的 remote 地址')
                             } else {
                                 // 添加远程仓库
@@ -103,7 +103,7 @@ if (typeof cmdValue === 'undefined') {
                                     }
                                     // PUSH
                                     console.log('PUSHING...')
-                                    exec('proxychains git push origin master', {cwd: path.resolve(process.cwd(), 'public')},
+                                    exec(`git push origin ${config.branch}`, {cwd: path.resolve(process.cwd(), 'public')},
                                     function (err, stdout, stderr) {
                                         if (stderr) {
                                             console.log(stderr)
@@ -117,7 +117,7 @@ if (typeof cmdValue === 'undefined') {
                         } else {
                             // PUSH
                             console.log('PUSHING...')
-                            exec('git push origin master', {cwd: path.resolve(process.cwd(), 'public')},
+                            exec(`git push origin ${config.branch}`, {cwd: path.resolve(process.cwd(), 'public')},
                             function (err, stdout, stderr) {
                                 if (stderr) {
                                     console.log(stderr)

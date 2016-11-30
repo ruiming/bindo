@@ -10,8 +10,10 @@ const postcss = require('gulp-postcss')
 const concat = require('gulp-concat')
  
 let mdDir = path.join(__dirname, 'posts')
+let imgDir = path.join(__dirname, 'images')
 let publicDir = path.join(__dirname, 'public')
 let templateDir = path.join(__dirname, 'templates')
+let staticDir = path.join(__dirname, 'static')
 let configFile = path.join(__dirname, 'config.yml')
 let template = {
     index: path.join(templateDir, 'index.html'),
@@ -38,6 +40,7 @@ module.exports.init = co.wrap(function *(source = __dirname) {
     // 传入 source 参数用于更改 MD, 配置, public 的路径
     configFile = path.join(source, 'config.yml')
     mdDir = path.join(source, 'posts')
+    imgDir = path.join(source, 'images')
     publicDir = path.join(source, 'public')
 
     config = yaml.safeLoad(yield fs.readFileAsync(configFile))
@@ -194,24 +197,25 @@ module.exports.createMd = co.wrap(function *(data) {
 
 // 静态资源处理
 module.exports.runGulp = function () {
+    console.log(path.resolve(staticDir, '*.js'))
     gulp.task('default', function () {
-        gulp.src(['./static/main.css',
-            './static/markdown.css'])
+        gulp.src([path.resolve(staticDir, 'main.css'),
+            path.resolve(staticDir, 'markdown.css')])
         .pipe(postcss([require('postcss-nested'), require('postcss-cssnext')] ))
         .pipe(concat('blog.min.css'))
-        .pipe(gulp.dest('./public/css'))
+        .pipe(gulp.dest(path.resolve(publicDir, 'css')))
 
-        gulp.src(['./static/bindo.css',
-            './static/markdown.css'])
+        gulp.src([path.resolve(staticDir, 'bindo.css'),
+            path.resolve(staticDir, 'markdown.css')])
             .pipe(postcss([require('postcss-nested'), require('postcss-cssnext')] ))
             .pipe(concat('bindo.min.css'))
-            .pipe(gulp.dest('./public/css'))
+            .pipe(gulp.dest(path.resolve(publicDir, 'css')))
 
-        gulp.src(['./static/*.js'])
-            .pipe(gulp.dest('./public/js/'))
+        gulp.src([path.resolve(staticDir, '*.js')])
+            .pipe(gulp.dest(path.resolve(publicDir, 'js')))
 
-        gulp.src(['./images/*'])
-            .pipe(gulp.dest('./public/img/'))
+        gulp.src([path.join(imgDir, '*.*')])
+            .pipe(gulp.dest(path.resolve(publicDir, 'img')))
     })
 
     gulp.start('default')
@@ -219,8 +223,8 @@ module.exports.runGulp = function () {
 
 module.exports.buildImg = function () {
     gulp.task('img', function () {
-        gulp.src(['./images/*'])
-            .pipe(gulp.dest('./public/img/'))
+        gulp.src([path.resolve(imgDir, '*')])
+            .pipe(gulp.dest(path.resolve(imgDir, 'img')))
     })
 
     gulp.start('img')
