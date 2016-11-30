@@ -9,7 +9,7 @@ const router = require('./router/router')
 const authRouter = require('./router/auth')
 const initRouter = require('./router/init')
 const bodyparser = require('koa-bodyparser')
-const rd = require('./rd')
+const bindo = require('./bindo')
 const jwt = require('koa-jwt')
 const cookies = require('./middlewares/cookies')
 const onerror = require('./middlewares/onerror')
@@ -18,9 +18,9 @@ const auth = require('./middlewares/auth')
 co(function *() {
     const app = new Koa()
 
-    yield rd.init()
+    yield bindo.init()
     yield make()
-    rd.runGulp()
+    bindo.runGulp()
 
     app.use(serve(path.resolve(__dirname, './public')))
 
@@ -37,7 +37,7 @@ co(function *() {
     app.use(authRouter.routes())
 
     app.use(jwt({
-        secret:    rd.get('secret'),
+        secret:    bindo.get('secret'),
         algorithm: 'RS256'
     }))
 

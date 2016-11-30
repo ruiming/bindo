@@ -20,15 +20,15 @@ program
 program.parse(process.argv)
 
 // 不要后端, 只要前端静态博客页面
-// 可以进行全局安装, 然后运行 rocket init 生
+// 可以进行全局安装, 然后运行 bindo init 生
 // 博客放 posts 中, 图片放 images 中, 执行命令自动构建 public
 // 用户上传 public 文件夹即可
 
 // 如果保留后端, 则直接本地安装启动 server 即可
 
-// rocket i 新建项目
-// rocket g 构建博客
-// rocket d 发布
+// bindo i 新建项目
+// bindo g 构建博客
+// bindo d 发布
 
 if (typeof cmdValue === 'undefined') {
     console.error('no command given!')
@@ -38,22 +38,22 @@ if (typeof cmdValue === 'undefined') {
     Promise.all([
         fs.copyAsync(
             path.resolve(__dirname, '../posts'),
-            path.resolve(process.cwd(), 'test', 'posts')
+            path.resolve(process.cwd(), 'bindo', 'posts')
         ),
         fs.copyAsync(
             path.resolve(__dirname, '../images'),
-            path.resolve(process.cwd(), 'test', 'images')
+            path.resolve(process.cwd(), 'bindo', 'images')
         ),
         fs.copyAsync(
             path.resolve(__dirname, '../public'),
-            path.resolve(process.cwd(), 'test', 'public')
+            path.resolve(process.cwd(), 'bindo', 'public')
         ),
         fs.copyAsync(
             path.resolve(__dirname, '../config.yml'),
-            path.resolve(process.cwd(), 'test', 'config.yml')
+            path.resolve(process.cwd(), 'bindo', 'config.yml')
         )
     ]).then(() => {
-        exec('git init', {cwd: path.resolve(process.cwd(), 'test', 'public')}, function (err, stdout, stderr) {
+        exec('git init', {cwd: path.resolve(process.cwd(), 'bindo', 'public')}, function (err, stdout, stderr) {
             if (err) {
                 console.log(err)
             } else {

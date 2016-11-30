@@ -4,37 +4,37 @@ var co = require('co')
 var path = require('path')
 var make = require('../make')
 var yaml = require('js-yaml')
-var rd = require('../rd')
+var bindo = require('../bindo')
 var asyncBusboy = require('async-busboy')
 
 const router = new Router({
-    prefix: '/rocket'
+    prefix: '/bindo'
 })
 
 // 后台主页页面
 router.get('/', co.wrap(function *(ctx, next) {
-    let posts = rd.get('posts')
+    let posts = bindo.get('posts')
     yield ctx.render('index', Object.assign({}, posts, {
-        config: rd.get('config')
+        config: bindo.get('config')
     }))
 }))
 
 // 创建新文章页面
 router.get('/new', co.wrap(function *(ctx, next) {
-    let tags = rd.get('tags')
+    let tags = bindo.get('tags')
     yield ctx.render('create', Object.assign({}, {
         all_tags: tags.tags.map(tag => Object.assign({ tag: tag })),
-        config:   rd.get('config'),
+        config:   bindo.get('config'),
         tags:     []
     }))
 }))
 
 // 编辑文章页面
 router.get('/edit/:id', co.wrap(function *(ctx, next) {
-    let post = rd.get('post', ctx.params.id)
-    let tags = rd.get('tags')
+    let post = bindo.get('post', ctx.params.id)
+    let tags = bindo.get('tags')
     yield ctx.render('create', Object.assign(post, {
-        config:   rd.get('config'),
+        config:   bindo.get('config'),
         all_tags: tags.tags.map(tag => Object.assign({ tag: tag }))
     }))
 }))
@@ -43,7 +43,7 @@ router.get('/edit/:id', co.wrap(function *(ctx, next) {
 router.get('/config', co.wrap(function *(ctx, next) {
     let config = yield fs.readFileAsync(path.resolve(__dirname, '../config.yml'), 'utf-8')
     yield ctx.render('config', {
-        config: rd.get('config'),
+        config: bindo.get('config'),
         cfg:    config
     })
 }))
@@ -79,11 +79,11 @@ router.post('/new', co.wrap(function *(ctx, next) {
         }
     }
     if (id) {
-        yield rd.deleteMd(id)
+        yield bindo.deleteMd(id)
     } else {
         id = Date.now()
     }
-    yield rd.createMd({
+    yield bindo.createMd({
         title,
         tags,
         content,
@@ -101,7 +101,7 @@ router.post('/new', co.wrap(function *(ctx, next) {
 
 // 删除文章
 router.delete('/post/:id', co.wrap(function *(ctx, next) {
-    yield rd.deleteMd(ctx.params.id)
+    yield bindo.deleteMd(ctx.params.id)
     yield make()
     ctx.body = {
         success: true,
@@ -121,7 +121,7 @@ router.post('/upload', co.wrap(function *(ctx, next) {
         }
     } catch (e) {
         files.map(file => file.pipe(fs.createWriteStream(path.resolve(__dirname, '../images', fields.name || file.filename))))
-        rd.buildImg()
+        bindo.buildImg()
         return ctx.body = {
             success: true
         }

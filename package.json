@@ -1,15 +1,15 @@
 {
-  "name": "rocket",
-  "version": "1.0.0",
+  "name": "bindo",
+  "version": "0.1.3",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "bin": {
-    "rocket": "./bin/rocket"
+    "bindo": "./bin/bindo.bin"
   },
   "repository": {
-    "url": "git@github.com:ruiming/rocket.git",
+    "url": "git@github.com:ruiming/bindo.git",
     "type": "git"
   },
   "author": "ruiming <ruiming.zhuang@gmail.com>",

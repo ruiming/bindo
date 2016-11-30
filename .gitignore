@@ -1,7 +1,3 @@
 /.vscode/
-/public/
 /node_modules/
-rocket.lock
-/posts/
-/images/
-config.yml
+bindo.lock

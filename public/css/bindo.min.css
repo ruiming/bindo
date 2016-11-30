@@ -1,0 +1,324 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: #333;    
+    font-size: 14px;
+    background: #fff;
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+.md {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 20px;
+}
+.md img {
+    max-width: 100%;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+/* base */
+.blog {
+    margin: 25px 0;
+}
+.me {
+    padding: 20px 10px;
+    overflow: hidden;
+    border-bottom: 1px solid #eee;
+}
+.me img {
+    border-radius: 50%;
+    width: 85px;
+    height: 85px;
+    float: left;
+    margin-right: 20px;
+}
+.me a {
+    border-bottom: 0;
+    position: relative;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #000;
+    text-decoration: none;
+}
+.me a:before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background: #2196F3;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+.me a:hover {
+    text-decoration: none;
+}
+.me a:hover:before {
+    width: 100%;
+    left: 0;
+    right: 0;
+}
+/* posts */
+.heading {
+    padding: 0 10px;
+}
+.posts {
+    list-style: none;
+    margin-bottom: 40px;
+    padding-left: 0;
+}
+.post {
+    position: relative;
+    border-bottom: 1px solid #e6e6e6;
+}
+.post-msg {
+    padding: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    display: block;
+}
+.post-msg p {
+    height: 20px;
+}
+.post-msg:last-child {
+    border-bottom: 0;
+}
+.post-option {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    text-align: right;
+}
+.post-option a {
+    line-height: 3.8;
+}
+.post-msg p {
+    color: #485763;
+    padding-bottom: 10px;
+    margin: 0;
+    display: block;
+}
+.post-msg:hover {
+    background: #fafafa;
+}
+.post-msg:hover,
+.post-msg:active,
+.post-msg:link {
+    text-decoration: none;
+}
+.post-msg small {
+    display: block;
+    letter-spacing: .5px;
+    font-size: 0.9em;
+    color: #999;
+    margin-bottom: 3px !important;
+}
+/* options */
+.options {
+    margin-top: -40px;
+    text-align: right;
+    list-style: none;
+    font-size: 14px;
+    overflow: hidden;
+}
+.btn {
+    display: inline-block;
+    padding: 8px 10px;
+    color: #6E7173;
+    text-decoration: none;
+}
+.btn:hover {
+    background-color: #eee;
+}
+/* markdown editor */
+.article {
+    overflow: hidden;
+    margin: 10px 0;
+}
+.article .group {
+    position: relative;
+    height: 30px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.article .group label {
+    position: absolute;
+    line-height: 2.2;
+}
+.article .group input,
+        .article .group .selectize-input {
+    height: 30px;
+    padding-left: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 60px;
+    width: 100%;
+    border: none;
+    resize: none;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ddd;
+    outline: none;
+}
+.article .group input:focus, .article .group .selectize-input:focus {
+    border-bottom: 1px solid #03a9f4;
+}
+.article .text {
+    width: 50%;
+    float: left;
+}
+.article .text input,
+        .article .text .selectize-input {
+    left: 40px;
+}
+.article .text .group:last-child {
+    overflow: visible;
+}
+.article .time {
+    overflow: hidden;
+    width: 50%;
+}
+.article .selectize-input {
+    padding: 0 0 0 10px !important;
+    width: auto !important;
+    width: initial !important;
+    box-shadow: none;
+}
+.article .selectize-input:focus,
+        .article .selectize-input.focus {
+    box-shadow: none;
+}
+.article .selectize-input .item {
+    color: #fff !important;
+    background: #2196f3 !important;
+}
+.article .write-info {
+    display: block;
+    margin-top: -25px;
+    margin-bottom: 10px;
+    color: #959694;
+}
+/* login */
+.login {
+    padding: 100px 10px;
+    text-align: center;
+}
+.login input {
+    width: 350px;
+    border: none;
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+    box-sizing: border-box;
+    outline: none;
+    resize: none;
+    display: block;
+    margin: 20px auto;
+}
+.login input:focus {
+    border-bottom: 1px solid #03a9f4;
+}
+.submit {
+    background: #03A9F4;
+    color: #fff;
+}
+.save {
+    position: absolute;
+    right: 0;
+    width: 86px !important;
+    top: 0;
+    z-index: 10;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 2.68;
+}
+/* image upload */
+#uploader {
+    position: relative;
+}
+#uploader #filePicker input{
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+#uploader .webuploader-pick {
+    margin-bottom: 10px;
+    border-radius: 0;
+    background: #03a9f4 !important;
+}
+#uploader .file-item,
+    #uploader .thumbnail {
+    padding-right: 10px;
+    margin-bottom: 10px;
+    float: left;
+}
+#uploader .info,
+    #uploader .error {
+    font-size: 12px;
+    width: 150px;
+    color: #666;
+    text-align: center;
+    word-break: break-all;
+    white-space: pre;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+/* notice */
+#notie-alert-inner {
+    padding: 5px !important;
+}
+#notie-alert-content {
+    font-size: 16px !important;
+}
+/* init */
+.init {
+    padding: 20px 0;
+}
+.init h2 {
+    margin-top: 0;
+}
+.init .submit {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+    box-sizing: border-box;
+    outline: none;
+    resize: none;
+}
+.init .submit:focus {
+    border-bottom: 1px solid #d6d6d6;
+}
+.init .group {
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+.init .group label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+.init .group input {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+.init .group input:focus {
+    border: 1px solid #00bcd4;
+}

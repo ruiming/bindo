@@ -9,10 +9,10 @@ gulp.task('css', () => {
         .pipe(concat('blog.min.css'))
         .pipe(gulp.dest('./public/css'))
 
-    gulp.src(['./static/rocket.css',
+    gulp.src(['./static/bindo.css',
         './static/markdown.css'])
         .pipe(postcss([require('postcss-nested'), require('postcss-cssnext')] ))
-        .pipe(concat('rocket.min.css'))
+        .pipe(concat('bindo.min.css'))
         .pipe(gulp.dest('./public/css'))
 })
 

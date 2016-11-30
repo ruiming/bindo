@@ -10,7 +10,7 @@
                 <small>{{ post.created_date|date('Y-m-d H:i') }}</small>
             </a>
             <div class="post-option">
-                <a href="/rocket/edit/{{post.id}}" class="btn">编辑</a>
+                <a href="/bindo/edit/{{post.id}}" class="btn">编辑</a>
                 <a href="javascript:void(0)" class="btn delete" id="{{post.id}}" class="btn">删除</a>
             </div>
         </li>
@@ -22,7 +22,7 @@
         event.preventDefault(); 
         var id = event.target.id
         $.ajax({
-           url: '/rocket/post/' + id,
+           url: '/bindo/post/' + id,
            type: 'DELETE',
            success: function(result) {
                 localStorage.removeItem('smde_' + id)

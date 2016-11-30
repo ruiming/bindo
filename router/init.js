@@ -9,7 +9,7 @@ const router = new Router()
 
 router.post('/init', co.wrap(function *(ctx, next) {
     try {
-        yield fs.accessAsync(path.resolve(__dirname, 'rocket.lock'))
+        yield fs.accessAsync(path.resolve(__dirname, 'bindo.lock'))
         ctx.status = 400
         ctx.body = {
             success: false,
@@ -23,7 +23,7 @@ router.post('/init', co.wrap(function *(ctx, next) {
             + `password: ${password}\n # Deploy\nremote: \n`
         yield yaml.safeLoad(yml)
         yield fs.writeFileAsync(path.resolve(__dirname, '../config.yml'), yml)
-        yield fs.writeFileAsync(path.resolve(__dirname, '../rocket.lock'), '')
+        yield fs.writeFileAsync(path.resolve(__dirname, '../bindo.lock'), '')
         yield make()
         ctx.body = {
             success: true,

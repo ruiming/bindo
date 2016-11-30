@@ -1,17 +1,17 @@
 const co = require('co')
 const jwt = require('koa-jwt')
 const fs = Promise.promisifyAll(require('fs-extra'))
-const rd = require('../rd')
+const bindo = require('../bindo')
 const path = require('path')
 
 module.exports = function () {
     return co.wrap(function *(ctx, next) {
         let token = ctx.cookies.get('jwt')
-        let config = rd.get('config')
+        let config = bindo.get('config')
         ctx.request.header.authorization = 'Bearer ' + token
         // 检查是否初始化
         try {
-            yield fs.accessAsync(path.resolve(__dirname, '../rocket.lock'))
+            yield fs.accessAsync(path.resolve(__dirname, '../bindo.lock'))
         } catch (e) {
             // 未初始化, 渲染 init 页面并退出
             if (/^\/init/.test(ctx.url) && ctx.method === 'POST') {
@@ -27,7 +27,7 @@ module.exports = function () {
         if (token != null) {
             let verify = Promise.promisify(jwt.verify), data
             try {
-                data = yield verify(token, rd.get('secret'))
+                data = yield verify(token, bindo.get('secret'))
             } catch (e) {
                 ctx.clearcookies()
                 yield ctx.render('login')
@@ -41,7 +41,7 @@ module.exports = function () {
         } else if (/^\/auth/.test(ctx.url)) {
             // 2. 不带 token, 访问登录接口
             yield next()
-        } else if (/^\/rocket/.test(ctx.url)) {
+        } else if (/^\/bindo/.test(ctx.url)) {
             // 3. 不带 token, 访问后台页面
             yield ctx.render('login')
         } else {

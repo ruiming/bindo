@@ -2,7 +2,7 @@ var { SHA256 } = require('crypto-js')
 var jwt = require('jsonwebtoken')
 var _ = require('underscore')
 var co = require('co')
-var rd = require('../rd')
+var bindo = require('../bindo')
 
 module.exports = function () {
     return co.wrap(function *(ctx, next) {
@@ -25,7 +25,7 @@ module.exports = function () {
                     id:  _id,
                     xsrf,
                     exp: date / 1000,
-                }, rd.get('secret'))
+                }, bindo.get('secret'))
             ctx.cookies.set('xsrf-token', xsrf, {
                 httpOnly:  false,
                 overwrite: true,
