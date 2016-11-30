@@ -32,7 +32,7 @@ Bindo 提供两种部署方式. 支持本地部署或服务器部署. 本地部�
 
   这会生成一个 `bindo` 文件夹, 该文件夹包含了用于存储 Markdown 文件的 `posts` 文件夹, 存放图片的 `images` 文件夹, 以及自动构建生成的 `public` 文件夹和配置文件 `config.yml`.
 
-  `posts` 文件夹中的博客可以通过 `/img/...` 来引用 `images` 文件夹中的图片. 同时, 计划将会支持 Hexo 的 `asset_img` 写法.
+  `posts` 文件夹中的博客可以通过 `/img/...` 来引用 `images` 文件夹中的图片. 同时, 也支持 Hexo 的 `asset_img` 写法.
 
 - 配置
 

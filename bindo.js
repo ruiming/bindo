@@ -148,6 +148,7 @@ module.exports.parseFile = co.wrap(function *(filename) {
     let content = post.slice(block.index + block[0].length)
     let meta = yaml.safeLoad(block[1])
     let name = meta.title && meta.title.toString().replace(/\s+/g, '-')
+    content = content.replace(/{%\s+asset_img\s+(.+?)\s(.+?)\s%}/g, '![$2](/img/$1)')
     rawposts.push(Object.assign({}, meta, {
         content: content
     }))
