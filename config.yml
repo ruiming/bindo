@@ -1,7 +1,7 @@
 # Site
-title: 瑞铭
-description: ruiming
-github: ruiming
+title: 某人的博客
+description: 某人的博客
+github: 
 google: 
 
 # Pagination
@@ -14,5 +14,5 @@ editor:
   height:
 
 # User
-username: 瑞铭
-password: ruiming
+username: 
+password: 
