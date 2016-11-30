@@ -46,5 +46,4 @@ const make = co.wrap(function *(source) {
     }
 
 })
-make()
 module.exports = make
