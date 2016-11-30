@@ -1,9 +1,5 @@
 global.Promise = require('bluebird')
-const fs = Promise.promisifyAll(require('fs'))    
 const co = require('co')
-const marked = require('marked')
-const yaml = require('js-yaml')
-const swig = require('swig')
 const _ = require('underscore')
 const rd = require('./rd')
 
@@ -13,7 +9,7 @@ const make = co.wrap(function *() {
     yield rd.rebuild()
     let config = rd.get('config')
     let filenames = yield rd.getMdFiles()
-    let posts = []
+    let posts = [], tags = []
     
     // 渲染并保存 post
     for (let filename of filenames) {
@@ -31,19 +27,19 @@ const make = co.wrap(function *() {
     // 渲染 index
     posts = rd.splitPosts(posts)
     rd.renderIndex({
-        posts: posts[0],
-        config: config,
+        posts:       posts[0],
+        config:      config,
         currentPage: 1,
-        page: posts.length
+        page:        posts.length
     })
     
     // 渲染 page
     for (let post of posts) {
         yield rd.renderPage({
-            posts: post,
-            config: config,
+            posts:       post,
+            config:      config,
             currentPage: posts.indexOf(post) + 1,
-            page: posts.length
+            page:        posts.length
         })
     }
 

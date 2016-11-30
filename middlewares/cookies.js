@@ -7,7 +7,6 @@ var rd = require('../rd')
 module.exports = function () {
     return co.wrap(function *(ctx, next) {
         // 清除 cookies
-        let config = rd.get('config')
         ctx.clearcookies = () => {
             ctx.cookies.set('xsrf-token', null, {
                 overwrite: true,

@@ -5,18 +5,17 @@ const path = require('path')
 const yaml = require('js-yaml')
 const marked = require('marked')
 const swig = require('swig')
-const _ = require('underscore')
 const gulp = require('gulp')
 const postcss = require('gulp-postcss')
 const concat = require('gulp-concat')
-
+ 
 const mdDir = path.join(__dirname, 'posts')
 const publicDir = path.join(__dirname, 'public')
 const templateDir = path.join(__dirname, 'templates')
 const configFile = path.join(__dirname, 'config.yml')
 const template = {
-    index:  path.join(templateDir, 'index.html'),
-    post:   path.join(templateDir, 'post.html')
+    index: path.join(templateDir, 'index.html'),
+    post:  path.join(templateDir, 'post.html')
 }
 
 // TODO 改用类实现
@@ -40,7 +39,7 @@ module.exports.init = co.wrap(function *() {
 
     yield [
         fs.ensureDirAsync(mdDir),
-        fs.ensureDirAsync(publicDir),        
+        fs.ensureDirAsync(publicDir),
         fs.ensureDirAsync(templateDir),
         fs.ensureDirAsync(path.resolve(publicDir, 'css')),
         fs.ensureDirAsync(path.resolve(publicDir, 'img'))
@@ -63,20 +62,19 @@ module.exports.rebuild = co.wrap(function *() {
 // 获取信息
 // 禁止修改
 module.exports.get = function (key, id) {
-    switch(key) {
-        case 'posts':
-            return posts
-        case 'tags':
-            return tags
-        case 'config':
-            return config
-        case 'secret':
-            return secret
-        case 'post':
-            let post = rawposts.find(post => post.id.toString() === id.toString())
-            return post
-        default:
-            return {}
+    switch (key) {
+    case 'posts':
+        return posts
+    case 'tags':
+        return tags
+    case 'config':
+        return config
+    case 'secret':
+        return secret
+    case 'post':
+        return rawposts.find(post => post.id.toString() === id.toString())
+    default:
+        return {}
     }
 }
 
@@ -129,7 +127,7 @@ module.exports.splitPosts = function (posts) {
     let temp = []
     let per_page = config['pagination']['index_page']
     let page = Math.ceil(posts.length / per_page )
-    for (let index=0; index<page; index++) {
+    for (let index = 0; index < page; index++) {
         temp.push(posts.slice(index * per_page, index * per_page + per_page))
     }
     return temp
@@ -154,14 +152,14 @@ module.exports.parseFile = co.wrap(function *(filename) {
 })
 
 // 存储全部 post 信息
-module.exports.savePosts = co.wrap(function *(data) {
+module.exports.savePosts = function (data) {
     posts = { posts: data }
-})
+}
 
 // 存储全部标签信息
-module.exports.saveTags = co.wrap(function *(data) {
+module.exports.saveTags = function (data) {
     tags = { tags: data }
-})
+}
 
 // 删除 md 文档
 // TODO 旧文章兼容
@@ -189,14 +187,14 @@ module.exports.createMd = co.wrap(function *(data) {
 module.exports.runGulp = function () {
     gulp.task('default', function () {
         gulp.src(['./static/main.css',
-              './static/markdown.css'])
-        .pipe(postcss([ require('postcss-nested'), require('postcss-cssnext')] ))
+            './static/markdown.css'])
+        .pipe(postcss([require('postcss-nested'), require('postcss-cssnext')] ))
         .pipe(concat('blog.min.css'))
         .pipe(gulp.dest('./public/css'))
 
         gulp.src(['./static/rocket.css',
-                './static/markdown.css'])
-            .pipe(postcss([ require('postcss-nested'), require('postcss-cssnext')] ))
+            './static/markdown.css'])
+            .pipe(postcss([require('postcss-nested'), require('postcss-cssnext')] ))
             .pipe(concat('rocket.min.css'))
             .pipe(gulp.dest('./public/css'))
 
@@ -210,7 +208,7 @@ module.exports.runGulp = function () {
     gulp.start('default')
 }
 
-module.exports.buildImg = function() {
+module.exports.buildImg = function () {
     gulp.task('img', function () {
         gulp.src(['./images/*'])
             .pipe(gulp.dest('./public/img/'))

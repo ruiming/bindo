@@ -1,5 +1,4 @@
 var Router = require('koa-router')
-var jwt = require('jsonwebtoken')
 var fs = Promise.promisifyAll(require('fs'))
 var co = require('co')
 var path = require('path')
@@ -25,8 +24,8 @@ router.get('/new', co.wrap(function *(ctx, next) {
     let tags = rd.get('tags')
     yield ctx.render('create', Object.assign({}, {
         all_tags: tags.tags.map(tag => Object.assign({ tag: tag })),
-        config: rd.get('config'),
-        tags: []
+        config:   rd.get('config'),
+        tags:     []
     }))
 }))
 
@@ -35,7 +34,7 @@ router.get('/edit/:id', co.wrap(function *(ctx, next) {
     let post = rd.get('post', ctx.params.id)
     let tags = rd.get('tags')
     yield ctx.render('create', Object.assign(post, {
-        config: rd.get('config'),
+        config:   rd.get('config'),
         all_tags: tags.tags.map(tag => Object.assign({ tag: tag }))
     }))
 }))
@@ -45,7 +44,7 @@ router.get('/config', co.wrap(function *(ctx, next) {
     let config = yield fs.readFileAsync(path.resolve(__dirname, '../config.yml'), 'utf-8')
     yield ctx.render('config', {
         config: rd.get('config'),
-        cfg: config
+        cfg:    config
     })
 }))
 
@@ -54,7 +53,7 @@ router.post('/config', co.wrap(function *(ctx, next) {
     let config = ctx.request.body.config
     try {
         yaml.safeLoad(config)
-    } catch(e) {
+    } catch (e) {
         ctx.status = 400
         return ctx.body = {
             success: false,
@@ -65,14 +64,14 @@ router.post('/config', co.wrap(function *(ctx, next) {
     yield make()
     ctx.body = {
         success: true,
-        data: '保存成功'
+        data:    '保存成功'
     }
 }))
 
 // 发布/修改文章
 router.post('/new', co.wrap(function *(ctx, next) {
     let { title, tags, content, id, created_date, updated_date } = ctx.request.body
-    if (!title.length ||!content.length || !created_date.length || !updated_date.length ) {
+    if (!title.length || !content.length || !created_date.length || !updated_date.length ) {
         ctx.status = 400
         return ctx.body = {
             success: false,
@@ -114,16 +113,14 @@ router.delete('/post/:id', co.wrap(function *(ctx, next) {
 router.post('/upload', co.wrap(function *(ctx, next) {
     const { files, fields } = yield asyncBusboy(ctx.req)
     try {
-        yield fs.accessAsync(path.resolve(__dirname, '../images', fields.name||files[0].filename))
+        yield fs.accessAsync(path.resolve(__dirname, '../images', fields.name || files[0].filename))
         ctx.status = 409
         ctx.body = {
             success: false,
             message: '存在同名文件'
         }
-    } catch(e) {
-        files.map(file => co.wrap(function *() {
-            file.pipe(fs.createWriteStream(path.resolve(__dirname, '../images', fields.name||file.filename)))
-        }))
+    } catch (e) {
+        files.map(file => file.pipe(fs.createWriteStream(path.resolve(__dirname, '../images', fields.name || file.filename))))
         rd.buildImg()
         return ctx.body = {
             success: true

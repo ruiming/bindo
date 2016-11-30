@@ -12,7 +12,7 @@ module.exports = function () {
         // 检查是否初始化
         try {
             yield fs.accessAsync(path.resolve(__dirname, '../rocket.lock'))
-        } catch(e) {
+        } catch (e) {
             // 未初始化, 渲染 init 页面并退出
             if (/^\/init/.test(ctx.url) && ctx.method === 'POST') {
                 // 通过初始化的请求

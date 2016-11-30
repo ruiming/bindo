@@ -37,15 +37,15 @@ co(function *() {
     app.use(authRouter.routes())
 
     app.use(jwt({
-        secret:     rd.get('secret'),
-        algorithm:  'RS256'
+        secret:    rd.get('secret'),
+        algorithm: 'RS256'
     }))
 
     app.context.render = co.wrap(swig({
-        root: path.join(__dirname, 'views'),
+        root:       path.join(__dirname, 'views'),
         autoescape: true,
-        ext: 'html',
-        cache: false
+        ext:        'html',
+        cache:      false
     }))
 
     app.use(router.routes())
