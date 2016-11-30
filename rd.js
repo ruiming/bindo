@@ -9,11 +9,11 @@ const gulp = require('gulp')
 const postcss = require('gulp-postcss')
 const concat = require('gulp-concat')
  
-const mdDir = path.join(__dirname, 'posts')
-const publicDir = path.join(__dirname, 'public')
-const templateDir = path.join(__dirname, 'templates')
-const configFile = path.join(__dirname, 'config.yml')
-const template = {
+let mdDir = path.join(__dirname, 'posts')
+let publicDir = path.join(__dirname, 'public')
+let templateDir = path.join(__dirname, 'templates')
+let configFile = path.join(__dirname, 'config.yml')
+let template = {
     index: path.join(templateDir, 'index.html'),
     post:  path.join(templateDir, 'post.html')
 }
@@ -34,7 +34,12 @@ let config = null,
  */
 
 // 初始化, 创建需要的文件夹, 获取配置
-module.exports.init = co.wrap(function *() {
+module.exports.init = co.wrap(function *(source = __dirname) {
+    // 传入 source 参数用于更改 MD, 配置, public 的路径
+    configFile = path.join(source, 'config.yml')
+    mdDir = path.join(source, 'posts')
+    publicDir = path.join(source, 'public')
+
     config = yaml.safeLoad(yield fs.readFileAsync(configFile))
 
     yield [
@@ -86,6 +91,7 @@ module.exports.getMdFiles = co.wrap(function *() {
 
 // 渲染 post 页面
 module.exports.renderPost = co.wrap(function *(data) {
+    console.log(`Render Post: ${data.title}`)
     yield render(
         path.join(publicDir, data.link, 'index.html'),
         template['post'],
@@ -95,6 +101,7 @@ module.exports.renderPost = co.wrap(function *(data) {
 
 // 渲染 page 页面
 module.exports.renderPage = co.wrap(function *(data) {
+    console.log(`Render Page: ${data.currentPage}`)
     yield render(
         path.join(publicDir, 'page', data.currentPage.toString(), 'index.html'),
         template['index'],
@@ -104,6 +111,7 @@ module.exports.renderPage = co.wrap(function *(data) {
 
 // 渲染 index 页面
 module.exports.renderIndex = co.wrap(function *(data) {
+    console.log('Render Index')
     yield render(
         path.join(publicDir, 'index.html'),
         template['index'],

@@ -5,7 +5,8 @@ const rd = require('./rd')
 
 // TODO let ... of ... ? map ?
 // Set secret here to avoid user to modify
-const make = co.wrap(function *() {
+const make = co.wrap(function *(source) {
+    yield rd.init(source)
     yield rd.rebuild()
     let config = rd.get('config')
     let filenames = yield rd.getMdFiles()

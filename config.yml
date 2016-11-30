@@ -16,3 +16,6 @@ editor:
 # User
 username: 
 password: 
+
+# Deploy
+remote: 

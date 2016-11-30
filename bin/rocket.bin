@@ -1,0 +1,138 @@
+#!/usr/bin/env node
+
+global.Promise = require('bluebird')
+var program = require('commander')
+var fs = Promise.promisifyAll(require('fs-extra'))
+var process = require('process')
+var path = require('path')
+var make = require('../make')
+var yaml = require('js-yaml')
+var exec = require('child_process').exec
+
+program
+  .version('0.0.1')
+  .arguments('<cmd> [env]')
+  .action(function (cmd, env) {
+      cmdValue = cmd
+      envValue = env
+  })
+
+program.parse(process.argv)
+
+// 不要后端, 只要前端静态博客页面
+// 可以进行全局安装, 然后运行 rocket init 生
+// 博客放 posts 中, 图片放 images 中, 执行命令自动构建 public
+// 用户上传 public 文件夹即可
+
+// 如果保留后端, 则直接本地安装启动 server 即可
+
+// rocket i 新建项目
+// rocket g 构建博客
+// rocket d 发布
+
+if (typeof cmdValue === 'undefined') {
+    console.error('no command given!')
+    process.exit(1)
+} else if (cmdValue === 'i' || cmdValue === 'init') {
+    // 初始化博客前端
+    Promise.all([
+        fs.copyAsync(
+            path.resolve(__dirname, '../posts'),
+            path.resolve(process.cwd(), 'test', 'posts')
+        ),
+        fs.copyAsync(
+            path.resolve(__dirname, '../images'),
+            path.resolve(process.cwd(), 'test', 'images')
+        ),
+        fs.copyAsync(
+            path.resolve(__dirname, '../public'),
+            path.resolve(process.cwd(), 'test', 'public')
+        ),
+        fs.copyAsync(
+            path.resolve(__dirname, '../config.yml'),
+            path.resolve(process.cwd(), 'test', 'config.yml')
+        )
+    ]).then(() => {
+        exec('git init', {cwd: path.resolve(process.cwd(), 'test', 'public')}, function (err, stdout, stderr) {
+            if (err) {
+                console.log(err)
+            } else {
+                process.exit(1)
+            }
+        })
+        
+    })
+} else if (cmdValue === 'g' || cmdValue === 'generate') {
+    // 构建博客静态页面
+    var start = Date.now()
+    make(process.cwd()).then(() => {
+        console.log('编译完成, 耗时: ' + (Date.now() - start) + ' ms')
+        exec('git add .', {cwd: path.resolve(process.cwd(), 'public')}, function (err, stdout, stderr) {
+            if (err) {
+                console.log(err)
+            } else {
+                process.exit(1)
+            }
+        })
+    })
+} else if (cmdValue === 'd' || cmdValue === 'deploy') {
+    try {
+        var config = yaml.safeLoad(fs.readFileSync(path.resolve(process.cwd(), 'config.yml')))
+        // 提交并 commit
+        exec('git add .', {cwd: path.resolve(process.cwd(), 'public')}, function (err, stdout, stderr) {
+            if (stderr) {
+                console.log(stderr)
+            } else {
+                console.log(stdout)
+                exec(`git commit -m "Site updated: ${(new Date()).toJSON().substring(0, 16).replace(/-/g, '/').replace(/[A-Z]/, ' ')}"`,
+                {cwd: path.resolve(process.cwd(), 'public')}, function (err, stdout, stderr) {
+                    if (stderr) {
+                        console.log(stderr)
+                    }
+                    exec('git remote', {cwd: path.resolve(process.cwd(), 'public')}, function (err, stdout, stderr) {
+                        if (!stdout.length) {
+                            console.log(stderr)
+                            if (!config || !config.remote) {
+                                console.log('请在 config.yml 配置你的 remote 地址')
+                            } else {
+                                // 添加远程仓库
+                                exec(`git remote add origin ${config.remote}`, {cwd: path.resolve(process.cwd(), 'public')},
+                                function (err, stdout, stderr) {
+                                    if (stderr) {
+                                        console.log(stderr)
+                                    }
+                                    // PUSH
+                                    exec('proxychains git push origin master', {cwd: path.resolve(process.cwd(), 'public')},
+                                    function (err, stdout, stderr) {
+                                        if (stderr) {
+                                            console.log(stderr)
+                                        } else {
+                                            console.log('DONE!')
+                                            process.exit(1)
+                                        }
+                                    })
+                                })
+                            }
+                        } else {
+                            // PUSH
+                            exec('proxychains git push origin master', {cwd: path.resolve(process.cwd(), 'public')},
+                            function (err, stdout, stderr) {
+                                if (stderr) {
+                                    console.log(stderr)
+                                } else {
+                                    console.log('DONE!')
+                                    process.exit(1)
+                                }
+                            })
+                        }
+                    })
+                })
+            }
+        })
+    } catch (e) {
+        console.log(e)
+    }
+} else {
+    console.error('no command given!')
+    process.exit(1)
+}
