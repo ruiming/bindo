@@ -49,7 +49,7 @@ co(function *() {
     }))
 
     app.use(router.routes())
-    .use(router.allowedMethods())
+        .use(router.allowedMethods())
 
     app.listen(8080)
 })
