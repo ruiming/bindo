@@ -32,7 +32,7 @@ module.exports = function () {
                 ctx.clearcookies()
                 yield ctx.render('login')
             }
-            if (data && data.id.toString() !== config['username'].toString()) {
+            if (data && data.id.toString() !== (config['username'] && config['username'].toString())) {
                 ctx.clearcookies()
                 yield ctx.render('login')
             } else {
