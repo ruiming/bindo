@@ -1,8 +1,8 @@
 # Site
-title: 某人的博客
-description: 某人的博客
+title: r
+description: r
 avatar: /img/avatar.png
-github: 
+github: r
 google: 
 
 # Pagination
@@ -15,9 +15,15 @@ editor:
   height:
 
 # User
-username: 
-password: 
+username: r
+password: r
 
 # Deploy
 remote: 
 branch: 
+
+# Other
+env: development
+key: 
+cert: 
+ca: 

@@ -837,6 +837,10 @@ http-errors@~1.4.0:
     inherits "2.0.1"
     statuses ">= 1.2.1 < 2"
 
+http2:
+  version "3.3.6"
+  resolved "http://registry.npm.taobao.org/http2/download/http2-3.3.6.tgz#7df06227e02b5b5a5841deea08239b3198d04bec"
+
 iconv-lite@0.4.13:
   version "0.4.13"
   resolved "http://registry.npm.taobao.org/iconv-lite/download/iconv-lite-0.4.13.tgz#1f88aba4ab0b1508e8312acc39345f36e992e2f2"
