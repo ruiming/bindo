@@ -17,7 +17,7 @@ router.post('/init', co.wrap(function *(ctx, next) {
         }
     } catch (e) {
         let { title, username, password, description, github, googlePlus, avatar } = ctx.request.body
-        let content = yield fs.readFileAsync(path.resolve(__dirname, '../config.yml'))
+        let content = yield fs.readFileAsync(path.resolve(__dirname, '../config.yml'), 'utf-8')
         content = content.replace(/(title:)(\s+.*)/, `$1 ${title}`)
                          .replace(/(username:)(\s+.*)/, `$1 ${username}`)
                          .replace(/(password:)(\s+.*)/, `$1 ${password}`)
