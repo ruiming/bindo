@@ -224,7 +224,7 @@ module.exports.runGulp = function () {
 module.exports.buildImg = function () {
     gulp.task('img', function () {
         gulp.src([path.resolve(imgDir, '*')])
-            .pipe(gulp.dest(path.resolve(imgDir, 'img')))
+            .pipe(gulp.dest(path.resolve(publicDir, 'img')))
     })
 
     gulp.start('img')
