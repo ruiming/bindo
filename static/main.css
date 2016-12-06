@@ -129,6 +129,27 @@ article {
     line-height: 2.0;
     color: #444;
 }
+.comment {
+    width: 100px;
+    border: none;
+    border-bottom: 1px solid #eee;
+    padding: 8px;
+    box-sizing: border-box;
+    outline: none;
+    resize: none;
+    display: block;
+    margin: 20px auto;
+    background-color: #7ab8ea;
+    color: white;
+    cursor: pointer;
+    &:hover {
+        background-color: #2196f3;
+        transition: 0.3s linear all;
+    }
+}
+.disqus-loader-bubble {
+    margin-bottom: 30px !important;
+}
 /* posts */
 .posts {
     list-style: none;
