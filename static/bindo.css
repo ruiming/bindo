@@ -225,6 +225,7 @@ body {
 .submit {
     background: #03A9F4;
     color: #fff;
+    padding: 2px !important;
 }
 .save {
     position: absolute;
@@ -280,18 +281,6 @@ body {
     h2 {
         margin-top: 0;
     }
-    .submit {
-        width: 100%;
-        border: none;
-        border-bottom: 1px solid #eee;
-        padding: 10px;
-        box-sizing: border-box;
-        outline: none;
-        resize: none;
-        &:focus {
-            border-bottom: 1px solid #d6d6d6;
-        }
-    }
     .group {
         box-sizing: border-box;
         margin-bottom: 15px;
@@ -318,5 +307,17 @@ body {
                 border: 1px solid #00bcd4;
             }
         }
+    }
+}
+.submit {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+    box-sizing: border-box;
+    outline: none;
+    resize: none;
+    &:focus {
+        border-bottom: 1px solid #d6d6d6;
     }
 }

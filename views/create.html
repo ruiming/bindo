@@ -40,11 +40,10 @@
     $('#update').datetimepicker()
     {% if created_date %}
     $('#create').val("{{ created_date|date('Y/m/d H:i') }}")
-    $('#update').val("{{ updated_date|date('Y/m/d H:i') }}")
     {% else %}
     $('#create').val(currentDate)
-    $('#update').val(currentDate)
     {% endif %}
+    $('#update').val(currentDate)
     // 保存文章
     $('#submit').click(function() {
         var title = $("#title").val(),
