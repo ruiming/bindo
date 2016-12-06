@@ -6,7 +6,7 @@
 
 ## 示例
 
-[http://ruiming.coding.me/](http://ruiming.coding.me/)
+[https://ruiming.me/](https://ruiming.me/)
 
 ## 使用
 
