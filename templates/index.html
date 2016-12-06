@@ -4,7 +4,7 @@
     {% for post in posts %}
     <a class="post" href="{{post.link}}">
         <p>{{ post.title }}</p>
-        <small>{{ post.created_date|date('Y-m-d H:i') }}</small>
+        <small>{{ post.created_date }}</small>
     </a>
     {% endfor %}
 </ul>
