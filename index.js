@@ -17,6 +17,7 @@ const auth = require('./middlewares/auth')
 const http = require('http')
 const http2 = require('http2')
 const fs = require('fs')
+const etag = require('koa-etag')
 
 co(function *() {
     const app = new Koa()
@@ -25,7 +26,12 @@ co(function *() {
     yield make()
     bindo.runGulp()
 
-    app.use(serve(path.resolve(__dirname, './public')))
+    app.use(etag())
+
+    app.use(serve(path.resolve(__dirname, './public'), {
+        maxage: 256000000,
+        gzip:   true
+    }))
 
     app.use(bodyparser())
 

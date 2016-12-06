@@ -33,6 +33,7 @@
     "jsonwebtoken": "^7.1.9",
     "koa": "next",
     "koa-bodyparser": "next",
+    "koa-etag": "next",
     "koa-jwt": "1.2.0",
     "koa-router": "next",
     "koa-static": "^2.0.0",
