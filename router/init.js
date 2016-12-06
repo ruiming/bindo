@@ -17,12 +17,19 @@ router.post('/init', co.wrap(function *(ctx, next) {
         }
     } catch (e) {
         let { title, username, password, description, github, googlePlus, avatar } = ctx.request.body
-        let yml = `# Site\ntitle: ${title}\ndescription: ${description}\navatar: ${avatar}\ngithub: ${github}\n`
-            + `google: ${googlePlus}\n\n# Pagination\npagination:\n  index_page: 5\n\n`
-            + `# Markdown\neditor:\n  minHeight: 600\n  height:\n\n# User\nusername: ${username}\n`
-            + `password: ${password}\n\n# Deploy\nremote: \nbranch: \n\n# Other\nenv: production\nkey: \ncert:\nca:\n`
-        yield yaml.safeLoad(yml)
-        yield fs.writeFileAsync(path.resolve(__dirname, '../config.yml'), yml)
+        let content = yield fs.readFileAsync(path.resolve(__dirname, '../config.yml'))
+        content = content.replace(/(title:)(\s+.*)/, `$1 ${title}`)
+                         .replace(/(username:)(\s+.*)/, `$1 ${username}`)
+                         .replace(/(password:)(\s+.*)/, `$1 ${password}`)
+                         .replace(/(description:)(\s+.*)/, `$1 ${description}`)
+                         .replace(/(github:)(\s+.*)/, `$1 ${github}`)
+                         .replace(/(googlePlus:)(\s+.*)/, `$1 ${googlePlus}`)
+                         .replace(/(avatar:)(\s+.*)/, `$1 ${avatar}`)
+        /*Object.keys(ctx.request.body).forEach(key => {
+            content = content.replace(`/(${key}:)(\s+.*)/`, '$1 ' + `${ctx.request.body[key]}`)
+        })*/
+        yield yaml.safeLoad(content)
+        yield fs.writeFileAsync(path.resolve(__dirname, '../config.yml'), content)
         yield fs.writeFileAsync(path.resolve(__dirname, '../bindo.lock'), '')
         yield make()
         ctx.body = {
