@@ -3,7 +3,10 @@
   "version": "0.2.1",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "generatessl": "./certbot-auto certonly --webroot -w /root/bindo -d ruiming.me -d www.ruiming.me",
+    "updatessl": "./certbot-auto renew --quiet",
+    "cron": "crontab ./utils/cron"
   },
   "bin": {
     "bindo": "./bin/bindo.bin"

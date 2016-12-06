@@ -1,0 +1,1 @@
+0 5 25 */2 * ./root/bindo/certbot-auto renew --quiet >> /root/bindo/utils/update_ssl.log 2>&1
