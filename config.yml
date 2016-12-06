@@ -23,7 +23,7 @@ remote:
 branch: 
 
 # Other
-env: development
+env: production
 key: 
 cert: 
 ca: 
