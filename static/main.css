@@ -7,6 +7,7 @@ body {
     max-width: 980px;
     margin: 0 auto;
     padding: 20px 10px 0;
+    overflow-x: scroll;
 }
 html {
     font-size: 16px;
@@ -21,7 +22,6 @@ html {
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     font-size: 1rem;
-    word-wrap: break-word;
     padding-left: 10px;
     padding-right: 10px;
     margin-bottom: 20px;
@@ -222,8 +222,11 @@ nav {
 }
 .pre {
     float: left;
+    padding-left: 0;
+    text-align: left;
 }
 .next {
+    padding-right: 0;
     float: right;
     text-align: right;
 }
