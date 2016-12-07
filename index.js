@@ -18,6 +18,8 @@ const http = require('http')
 const http2 = require('http2')
 const fs = require('fs')
 const etag = require('koa-etag')
+const enforceHttps = require('koa-sslify')
+const helmet = require('koa-helmet')
 
 co(function *() {
     const app = new Koa()
@@ -25,6 +27,12 @@ co(function *() {
     yield bindo.init()
     yield make()
     bindo.runGulp()
+    const config = bindo.get('config')
+
+    if (config['key']) {
+        app.use(enforceHttps())
+        app.use(helmet())
+    }
 
     app.use(etag())
 
@@ -60,9 +68,6 @@ co(function *() {
     app.use(router.routes())
         .use(router.allowedMethods())
 
-
-
-    const config = bindo.get('config')
     
     if (config['env'] === 'production' && config['key'] && config['cert'] && config['ca']) {
         http.createServer(app.callback()).listen(80)

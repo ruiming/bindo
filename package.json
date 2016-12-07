@@ -1,6 +1,6 @@
 {
   "name": "bindo",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -34,8 +34,10 @@
     "koa": "next",
     "koa-bodyparser": "next",
     "koa-etag": "next",
+    "koa-helmet": "2.0.0",
     "koa-jwt": "1.2.0",
     "koa-router": "next",
+    "koa-sslify": "next",
     "koa-static": "^2.0.0",
     "koa-swig": "2.2.0",
     "marked": "^0.3.6",
