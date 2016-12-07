@@ -33,46 +33,7 @@
 
     </article>
 </article>
-<input type="button" class="comment" id="comment" value="评论">
-<div id="disqus_thread"></div>
-<script>
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-var disqus_config = function () {
-    this.page.title = "欢迎使用 Bindo"
-    this.page.url = "https://ruiming.me/post/欢迎使用-Bindo/"
-    this.page.identifier = "1480424925367"
-    this.callbacks.onReady = [function() { 
-        document.getElementById('comment').remove()
-    }]
-}
-document.getElementById('comment').addEventListener('click', function(e) {
-    document.getElementById('comment').value = '加载中'
-    var d = document, s = d.createElement('script');
-    s.src = '//ruiming.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    setTimeout(function() {
-        // 如果没有加载圈圈, 且 commentbox 还在, 并且 disqus 也没出来
-        if(!document.getElementsByClassName('disqus-loader-bubble').length
-            && document.getElementById('comment')
-            && !document.getElementsByClassName('postbox').length) {
-            document.getElementById('comment').style.width = '200px'
-            document.getElementById('comment').style.background = '#f44336'
-            document.getElementById('comment').value = '无法加载 Disqus'
-        }
-    }, 6000)
-})
-</script>
-<link rel="dns-prefetch" href="//ruiming.disqus.com/embed.js">
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
 
     <footer>
         某人的博客
@@ -89,15 +50,5 @@ document.getElementById('comment').addEventListener('click', function(e) {
     <script src="//cdn.bootcss.com/highlight.js/9.8.0/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
     
-    
-    <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-81637252-1', 'auto');
-    ga('send', 'pageview');
-    </script>
     
 </body>

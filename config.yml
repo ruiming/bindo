@@ -7,7 +7,7 @@ google: /
 
 # Pagination
 pagination:
-  index_page: 5
+  index_page: 6
 
 # Markdown
 editor:
@@ -15,11 +15,11 @@ editor:
   height:
 
 # disqus
-disqus: ruiming
-sites: https://ruiming.me
+disqus:
+sites:
 
 # google-analytics
-gaid: UA-81637252-1
+gaid: 
 
 # User
 username: 某人
@@ -30,7 +30,7 @@ remote:
 branch: 
 
 # Other
-env: development
+env: production
 key: 
 cert: 
 ca: 
