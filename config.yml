@@ -14,6 +14,10 @@ editor:
   minHeight: 600
   height:
 
+# disqus
+disqus: ruiming
+sites: https://ruiming.me
+
 # User
 username: 某人
 password: 某人
