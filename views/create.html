@@ -35,7 +35,7 @@
 
     <script>
     $.datetimepicker.setLocale('ch')
-    var currentDate = (new Date()).toJSON().substring(0, 16).replace(/-/g, '/').replace(/[A-Z]/, ' ')
+    var currentDate = (new Date()).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai', hour12: false }).replace(/:\d{2}$/,'');
     $('#create').datetimepicker()
     $('#update').datetimepicker()
     {% if created_date %}
