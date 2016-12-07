@@ -27,7 +27,8 @@ this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your pag
 };
 */
 var disqus_config = function () {
-    this.page.url = "{{link}}"
+    this.page.title = "{{title}}"
+    this.page.url = "https://ruiming.me{{link}}"
     this.page.identifier = "{{id}}"
     this.callbacks.onReady = [function() { 
         document.getElementById('comment').remove()
