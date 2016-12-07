@@ -18,6 +18,9 @@ editor:
 disqus: ruiming
 sites: https://ruiming.me
 
+# google-analytics
+gaid: UA-81637252-1
+
 # User
 username: 某人
 password: 某人
@@ -27,7 +30,7 @@ remote:
 branch: 
 
 # Other
-env: production
+env: development
 key: 
 cert: 
 ca: 
